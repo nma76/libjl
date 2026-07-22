@@ -1,4 +1,11 @@
 1. runtime.S
+        Exportera symboler:
+        runtime_init
+        runtime_argc
+        runtime_argv
+        runtime_envp
+        runtime_auxv
+
     runtime_init
         Den gör bara en sak: Den sparar undan de fyra pekarna.
 

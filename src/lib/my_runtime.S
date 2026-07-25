@@ -44,7 +44,7 @@ runtime_get_envp:
     ldr x10, [x9]                   // load the value (argc) at pointer in x9 into x10, this is the register for return value
 
     mov x11, #8                     // store the nuber 8, this is our multiplicand
-    add x10, x10, #1                // add #1 to the stored argc. the formula to find first envp is: SP + (argc+1)*8
+    add x10, x10, #2                // add #2 to the stored argc. the formula to find first envp is: SP + (argc+2)*8
     madd x0, x10, x11, x9           // multiply argc by 8 and add another 8 and store it in x0. x0 now points to envp[0]
     ret
 

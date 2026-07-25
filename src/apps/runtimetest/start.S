@@ -8,16 +8,31 @@ buffer:
 .section .text
 
 _start:
+    // Init runtime
     mov x0,sp                   // copy stack pointer to x0 as my_runtime.S uses it as input
-
     bl runtime_init
-    bl runtime_get_auxv
+    // init finished
 
-    ldr x1, =buffer         // buffer holding the result
-    bl my_itoa              // call my_itoa
+    // Test argv.S
+    mov x0, #2                  // Input: index of the argv we want pointer to
+    bl argv_get                 // call argv_get to get the pointer
 
-    ldr x0, =buffer         // load buffer to print into x0
+    // convert to ascii so we can print the pointer as number
+    //ldr x1, =buffer         // buffer holding the result
+    //bl my_itoa              // call my_itoa
+
+    //ldr x0, =buffer         // load buffer to print into x0
     bl my_puts
+    //
+
+    // Test runtime.S
+    //bl runtime_get_argc
+    //
+    //ldr x1, =buffer         // buffer holding the result
+    //bl my_itoa              // call my_itoa
+    //
+    //ldr x0, =buffer         // load buffer to print into x0
+    //bl my_puts
 
 
     // Exit using linux syscall

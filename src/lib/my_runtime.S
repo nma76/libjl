@@ -5,7 +5,8 @@
 //
 // temporary registers:
 //      x9      
-//      x10     
+//      x10  
+//      x11   
 
 .global runtime_init
 .global runtime_get_argc
@@ -43,14 +44,14 @@ runtime_get_envp:
     ldr x10, [x9]                   // load the value (argc) at pointer in x9 into x10, this is the register for return value
 
     mov x11, #8                     // store the nuber 8, this is our multiplicand
-    madd x0, x10, x11, x9           // multiply argc by 8 and add another 8 and store it in x0. This should be the size of argv
-    add x0, x0, #8                  // Skip argv NULL terminator (8 bytes)
+    add x10, x10, #1                // add #1 to the stored argc. the formula to find first envp is: SP + (argc+1)*8
+    madd x0, x10, x11, x9           // multiply argc by 8 and add another 8 and store it in x0. x0 now points to envp[0]
     ret
 
 runtime_get_auxv:
     str x30, [sp, #-16]!            // allocate 16 bytes on the stack, store x30 (link register, return address)  
     bl runtime_get_envp             // get pointer to envp into x0
-    ldr x30, [sp], #16          // restore x30 from stack
+    ldr x30, [sp], #16              // restore x30 from stack
 
 runtime_get_aux_loop:    
     ldr x9, [x0], #8                // read current envp pointer and advance to next enttry

@@ -11,7 +11,7 @@ _start:
     mov x0,sp                   // copy stack pointer to x0 as my_runtime.S uses it as input
 
     bl runtime_init
-    bl runtime_get_argc
+    bl runtime_get_auxv
 
     ldr x1, =buffer         // buffer holding the result
     bl my_itoa              // call my_itoa

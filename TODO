@@ -1,34 +1,18 @@
-1. runtime.S
-        Exportera symboler:
-        runtime_init
-        runtime_argc
-        runtime_argv
-        runtime_envp
-        runtime_auxv
+Refactor my_itoa and my_htoa to use lookup tables
 
-    runtime_init
-        Den gör bara en sak: Den sparar undan de fyra pekarna.
+my_itoa: 
+.section .rodata
+lookup_table:
+    .asciz "0123456789"
 
-        runtime_argc_storage
-        runtime_argv_storage
-        runtime_envp_storage
-        runtime_auxv_storage
+my_htoa: 
+.section .rodata
+lookup_table:
+    .asciz "0123456789ABCDEF"
 
-    runtime_argc
-        Returnerar x0 = argc
-
-    runtime_argv
-        Returnerar x0 = argv
-
-    runtime_envp
-        Returnerar x0 = argc
-
-    runtime_auxv
-
-2. output modul
-
-3. sysinfo modul
-
+using it would be like:
+adr x15, lookup_table           // address to lookup table
+ldrb w10, [x15, w10, uxtw]      // w10 contains the index (the rest from division)
 
 
 ASSERT_EQ_INT

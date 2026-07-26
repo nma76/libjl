@@ -28,6 +28,7 @@ void test_strcmp(void);
 void test_strcpy(void);
 void test_strlen(void);
 void test_utoa(void);
+void test_htoa(void);
 void test_write(void);
 
 #define ASSERT_TRUE(expr) \

@@ -20,6 +20,7 @@ struct test_case tests[] = {
     { "my_strcpy", test_strcpy},
     { "my_strlen", test_strlen},
     { "my_utoa", test_utoa},
+    { "my_htoa", test_htoa},
     { "my_write", test_write}
 };
 

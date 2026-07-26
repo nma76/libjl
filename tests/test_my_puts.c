@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <unistd.h>
-#include "mylib.h"
+#include "libjl.h"
 #include "test.h"
 
 void test_puts(void) {

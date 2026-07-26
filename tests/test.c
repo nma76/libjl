@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "mylib.h"
+#include "libjl.h"
 #include "test.h"
 
 unsigned tests_run = 0;

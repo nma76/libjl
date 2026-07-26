@@ -1,7 +1,7 @@
 #include <stdint.h>
 
-#ifndef MYLIB_H
-#define MYLIB_H
+#ifndef LIBJL_H
+#define LIBJL_H
 
 size_t my_strlen(const char *source);
 char *my_strcpy(char *dest, const char *source);

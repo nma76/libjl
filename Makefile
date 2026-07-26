@@ -13,7 +13,7 @@ CFLAGS  := -Wall -Iinclude
 LIB_SRC := $(wildcard src/lib/*.S)
 LIB_OBJ := $(patsubst src/lib/%.S,obj/lib_%.o,$(LIB_SRC))
 
-LIBRARY := libmylib.a
+LIBRARY := libjl.a
 
 #
 # ----------------------------------------------------------------------
@@ -72,7 +72,7 @@ obj/lib_%.o: src/lib/%.S
 
 $(TEST_BIN): $(TEST_SRC) $(LIBRARY)
 	@mkdir -p bin
-	$(CC) $(CFLAGS) $^ -L. -lmylib -o $@
+	$(CC) $(CFLAGS) $^ -L. -ljl -o $@
 
 #
 # ----------------------------------------------------------------------

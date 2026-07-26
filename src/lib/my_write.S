@@ -1,4 +1,4 @@
-.global my_write
+.global jl_write
 // Write to stdout
 //
 // Input:
@@ -10,7 +10,7 @@
 
 .text
 
-my_write:
+jl_write:
     mov x8, #64         // write syscall is number 64
     svc #0              // execute system call
     ret                 // return

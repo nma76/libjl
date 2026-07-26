@@ -55,24 +55,24 @@ print_argc:
     //
     // ARGC - Argument Count
     // first 8 bytes on the stack is argc (number of arguments)
-    // we use my_itoa to convert the number to ASCII and my_puts to print to stdout
+    // we use jl_itoa to convert the number to ASCII and jl_puts to print to stdout
     //
     ldr x0, =argc_heading   // print section heading
-    bl my_puts
+    bl jl_puts
 
     ldr x19, [sp]           // load argc into register x19
-    mov w0, w19             // my_itoa needs the integer in x0
+    mov w0, w19             // jl_itoa needs the integer in x0
     ldr x1, =buffer         // buffer holding the result
-    bl my_itoa              // call my_itoa
+    bl jl_itoa              // call jl_itoa
 
     ldr x0, =buffer         // load buffer to print into x0
-    bl my_puts              // and print it
+    bl jl_puts              // and print it
 
     ldr x0, =newline        // load newline into x0
-    bl my_puts              // and print it
+    bl jl_puts              // and print it
 
     ldr x0, =end_heading   // print section heading end
-    bl my_puts
+    bl jl_puts
     //
     // ARGC Ends
     //
@@ -84,22 +84,22 @@ print_argv:
     // the list is NULL terminated, but we use argc as counter instead of looping until we find \0
     //
     ldr x0, =argv_heading   // print section heading
-    bl my_puts
+    bl jl_puts
 
 loop_argv:                 // we need to loop according to argc, which is stored in x9
     cbz w19, done_argv       // if x9 reach 0, loop is done!
 
     ldr x0, [x20], #8       // load pointer 
-    bl my_puts              // print whatever is at that pointer
+    bl jl_puts              // print whatever is at that pointer
 
     ldr x0, =newline        // load newline into x0
-    bl my_puts              // and print it
+    bl jl_puts              // and print it
 
     sub w19, w19, #1
     b loop_argv
 done_argv:
     ldr x0, =end_heading   // print section heading end
-    bl my_puts
+    bl jl_puts
 
     add x20, x20, #8        // the next 8 bytes after the last argv is null termination, we skip that
     //
@@ -112,21 +112,21 @@ done_argv:
     // the list is NULL terminated, so we loop until we reach \0
     //
     ldr x0, =env_heading   // print section heading
-    bl my_puts
+    bl jl_puts
 
 print_env:
     ldr x0, [x20], #8       // load pointer on address into x0
     cbz x0, done_env        // if we get NULL, we quit
 
-    bl my_puts              // print whatever string is at that pointer
+    bl jl_puts              // print whatever string is at that pointer
 
     ldr x0, =newline        // load newline into x0
-    bl my_puts              // and print it
+    bl jl_puts              // and print it
 
     b print_env
 done_env:    
     ldr x0, =end_heading   // print section heading end
-    bl my_puts
+    bl jl_puts
 
     add x20, x20, #8        // Skip null terminator by skipping 8 bytes
     //
@@ -175,7 +175,7 @@ done_env:
     //  46 (AT_MINSIGSTKSZ) - Mycket vanlig på ARM64! Minsta tillåtna stackstorlek i bytes för att kunna hantera signaler (används för arkitekturspecifika tillägg som SVE/SME-register).
     //
     ldr x0, =at_heading   // print section heading
-    bl my_puts
+    bl jl_puts
 
 print_aux:    
     ldr x21, [x20], #8      // load AT_type
@@ -183,15 +183,15 @@ print_aux:
     ldr x22, [x20], #8      // load AT_val
 
     // print numeric value of x21 and a colon    
-    mov x0, x21             // copy x21 to work with my_itoa
+    mov x0, x21             // copy x21 to work with jl_itoa
     ldr x1, =buffer         // set output buffer
-    bl my_itoa              // call my_itoa to get the number
+    bl jl_itoa              // call jl_itoa to get the number
 
     ldr x0, =buffer         // load buffer to print into x0
-    bl my_puts              // and print it
+    bl jl_puts              // and print it
 
     mov x0, #':'
-    bl my_putchar
+    bl jl_putchar
 
     // string values
     cmp x21, #15            
@@ -264,64 +264,64 @@ print_aux:
 
 print_aux_unknown:
     // Debug - we found something else
-    //mov x0, x21             // copy x21 to work with my_itoa
+    //mov x0, x21             // copy x21 to work with jl_itoa
     //ldr x1, =buffer         // set output buffer
-    //bl my_itoa              // call my_itoa to get the number
+    //bl jl_itoa              // call jl_itoa to get the number
 
     //ldr x0, =buffer         // load buffer to print into x0
-    //bl my_puts              // and print it
+    //bl jl_puts              // and print it
 
     //ldr x0, =newline        // load newline into x0
-    //bl my_puts              // and print it
+    //bl jl_puts              // and print it
 
     ldr x0, =newline        // load newline into x0
-    bl my_puts              // and print it
+    bl jl_puts              // and print it
 
     b print_aux
 
 print_aux_hexdump:
     mov x0, #'D'
-    bl my_putchar
+    bl jl_putchar
 
     ldr x0, =newline        // load newline into x0
-    bl my_puts              // and print it
+    bl jl_puts              // and print it
 
     b print_aux
 
 print_aux_hex:
     mov x0, #'H'
-    bl my_putchar
+    bl jl_putchar
 
     ldr x0, =newline        // load newline into x0
-    bl my_puts              // and print it
+    bl jl_puts              // and print it
 
     b print_aux
 
 print_aux_numeric:
-    mov x0, x22             // my_itoa needs the integer in x0
+    mov x0, x22             // jl_itoa needs the integer in x0
     ldr x1, =buffer         // buffer holding the result
-    bl my_itoa              // call my_itoa
+    bl jl_itoa              // call jl_itoa
     
     ldr x0, =buffer
-    bl my_puts
+    bl jl_puts
 
     ldr x0, =newline        // load newline into x0
-    bl my_puts              // and print it
+    bl jl_puts              // and print it
 
     b print_aux
 
 print_aux_string:
     mov x0, x22
-    bl my_puts              // print whatever string is at that pointer
+    bl jl_puts              // print whatever string is at that pointer
 
     ldr x0, =newline        // load newline into x0
-    bl my_puts              // and print it
+    bl jl_puts              // and print it
 
     b print_aux
 
 done_aux:
     ldr x0, =end_heading   // print section heading
-    bl my_puts
+    bl jl_puts
 
 
 

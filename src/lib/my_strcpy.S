@@ -1,4 +1,4 @@
-.global my_strcpy
+.global jl_strcpy
 // Copy a string to another
 //
 // Input:
@@ -13,7 +13,7 @@
 
 .text
 
-my_strcpy:
+jl_strcpy:
     mov x9, x0              // store original pointer to dest in x9
 
 loop:

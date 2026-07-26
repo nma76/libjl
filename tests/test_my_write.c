@@ -16,13 +16,13 @@ void test_write(void) {
     close(fds[1]);
 
     // message to print
-    const char *message = "Hej från my_write\n";
+    const char *message = "Hej från jl_write\n";
 
     // get length of text
-    size_t length = my_strlen(message);
+    size_t length = jl_strlen(message);
 
     // write to stdout. fd = 1 is stdout
-    my_write(1, message, length);
+    jl_write(1, message, length);
 
     // Assert results
     ASSERT_EQ(length, 19);

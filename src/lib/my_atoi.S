@@ -1,4 +1,4 @@
-.global my_atoi
+.global jl_atoi
 // Parse string and returns integer at the beginning. 
 // It accepts initial whitespaces, plus and minus signs. As soon as we found a digit, whitespaces, plus and minus are treated as any other character
 //
@@ -33,7 +33,7 @@
 
 .text
 
-my_atoi:
+jl_atoi:
     // PROLOGUE: often used to store x29 and x30
     str x30, [sp, #-16]!        // allocate 16 bytes on the stack, store x30 (link register, return address)  
 

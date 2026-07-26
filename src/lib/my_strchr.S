@@ -1,4 +1,4 @@
-.global my_strchr
+.global jl_strchr
 // Search a string for a specific character
 //
 // Input:
@@ -12,7 +12,7 @@
 
 .text
 
-my_strchr:
+jl_strchr:
     and w1, w1, #0xFF       // mask the lowest byte
 
 loop:

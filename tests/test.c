@@ -7,21 +7,21 @@ unsigned assertions = 0;
 unsigned failures = 0;
 
 struct test_case tests[] = {
-    { "my_atoi", test_atoi},
-    { "my_getchar", test_getchar},
-    { "my_itoa", test_itoa},
-    { "my_mamcpy", test_memcpy},
-    { "my_memset", test_memset},
-    { "my_putchar", test_putchar},
-    { "my_puts", test_puts},
-    { "my_read", test_read},
-    { "my_strchr", test_strchr},
-    { "my_strcmp", test_strcmp},
-    { "my_strcpy", test_strcpy},
-    { "my_strlen", test_strlen},
-    { "my_utoa", test_utoa},
-    { "my_htoa", test_htoa},
-    { "my_write", test_write}
+    { "jl_atoi", test_atoi},
+    { "jl_getchar", test_getchar},
+    { "jl_itoa", test_itoa},
+    { "jl_mamcpy", test_memcpy},
+    { "jl_memset", test_memset},
+    { "jl_putchar", test_putchar},
+    { "jl_puts", test_puts},
+    { "jl_read", test_read},
+    { "jl_strchr", test_strchr},
+    { "jl_strcmp", test_strcmp},
+    { "jl_strcpy", test_strcpy},
+    { "jl_strlen", test_strlen},
+    { "jl_utoa", test_utoa},
+    { "jl_htoa", test_htoa},
+    { "jl_write", test_write}
 };
 
 int main(void) {

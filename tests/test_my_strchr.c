@@ -7,11 +7,11 @@ void test_strchr(void) {
 
     const char *source1 = "Hejsan!";
     search = 'j';
-    char *result1 = my_strchr(source1, search);
+    char *result1 = jl_strchr(source1, search);
     ASSERT_STR_EQ(result1, "jsan!");
 
     const char *source2 = "Hello!";
     search = 'j';
-    char *result2 = my_strchr(source2, search);
+    char *result2 = jl_strchr(source2, search);
     ASSERT_EQ(result2, NULL);
 }

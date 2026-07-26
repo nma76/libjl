@@ -1,4 +1,4 @@
-.global my_strlen
+.global jl_strlen
 // Counts length of a string
 //
 // Input:
@@ -12,7 +12,7 @@
 
 .text
 
-my_strlen:
+jl_strlen:
     mov w10, #0              // set x1 to zero. This is our string length counter
 
 loop:

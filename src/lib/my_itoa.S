@@ -1,4 +1,4 @@
-.global my_itoa
+.global jl_itoa
 // Converts an integer to string
 //
 // Accepted:
@@ -25,7 +25,7 @@
 
 .text
 
-my_itoa:
+jl_itoa:
     // PROLOGUE: often used to store x29 and x30
     str x30, [sp, #-16]!        // allocate 16 bytes on the stack, store x30 (link register, return address)  
 

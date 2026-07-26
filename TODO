@@ -1,11 +1,11 @@
-Refactor my_itoa and my_htoa to use lookup tables
+Refactor jl_itoa and jl_htoa to use lookup tables
 
-my_itoa: 
+jl_itoa: 
 .section .rodata
 lookup_table:
     .asciz "0123456789"
 
-my_htoa: 
+jl_htoa: 
 .section .rodata
 lookup_table:
     .asciz "0123456789ABCDEF"

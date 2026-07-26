@@ -15,7 +15,7 @@ buffer:
 
 _start:
     // Init runtime
-    mov x0, sp                   // copy stack pointer to x0 as my_runtime.S uses it as input
+    mov x0, sp                   // copy stack pointer to x0 as jl_runtime.S uses it as input
     bl runtime_init
     // init finished
 
@@ -26,10 +26,10 @@ test_envp_exists:
     ldr x0, =envp_name      // name to look for
     bl envp_exists          // check if exists, result is in x0
     ldr x1, =buffer         // buffer holding the result
-    bl my_itoa              // call my_itoa to get a digit
+    bl jl_itoa              // call jl_itoa to get a digit
     
     ldr x0, =buffer         // load buffer to print into x0
-    bl my_puts              // print result
+    bl jl_puts              // print result
     b exit
 
 
@@ -40,13 +40,13 @@ test_envp_get:
 
     cbz x0, failed
 
-    bl my_puts
+    bl jl_puts
 
     b exit
 
 failed:
     ldr x0, =failed_str
-    bl my_puts
+    bl jl_puts
     b exit
 
 
@@ -56,10 +56,10 @@ test_argv_exists:
     mov x0, #3              // argument index to look for
     bl argv_exists          // check if exists, result is in x0
     ldr x1, =buffer         // buffer holding the result
-    bl my_itoa              // call my_itoa to get a digit
+    bl jl_itoa              // call jl_itoa to get a digit
     
     ldr x0, =buffer         // load buffer to print into x0
-    bl my_puts              // print result
+    bl jl_puts              // print result
     b exit
 
 
@@ -67,7 +67,7 @@ test_argv_exists:
 test_argv_get:    
     mov x0, #1                  // Input: index of the argv we want pointer to
     bl argv_get                 // call argv_get to get the pointer
-    bl my_puts
+    bl jl_puts
 
     b exit
 
@@ -75,10 +75,10 @@ test_argv_get:
     //bl runtime_get_argc
     //
     //ldr x1, =buffer         // buffer holding the result
-    //bl my_itoa              // call my_itoa
+    //bl jl_itoa              // call jl_itoa
     //
     //ldr x0, =buffer         // load buffer to print into x0
-    //bl my_puts
+    //bl jl_puts
 
 
     // Exit using linux syscall

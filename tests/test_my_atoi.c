@@ -7,31 +7,31 @@ void test_atoi(void) {
     int result;
     bool status;
 
-    status = my_atoi("   123", &result);
+    status = jl_atoi("   123", &result);
     ASSERT_EQ(status, true);
     ASSERT_EQ(result, 123);
 
-    status = my_atoi("23", &result);
+    status = jl_atoi("23", &result);
     ASSERT_EQ(status, true);
     ASSERT_EQ(result, 23);
 
-    status = my_atoi("123-456", &result);
+    status = jl_atoi("123-456", &result);
     ASSERT_EQ(status, true);
     ASSERT_EQ(result, 123);
 
-    status = my_atoi("-45", &result);
+    status = jl_atoi("-45", &result);
     ASSERT_EQ(status, true);
     ASSERT_EQ(result, -45);
 
-    status = my_atoi("abc123", &result);
+    status = jl_atoi("abc123", &result);
     ASSERT_EQ(status, false);
     ASSERT_EQ(result, 0);
 
-    status = my_atoi("+42", &result);
+    status = jl_atoi("+42", &result);
     ASSERT_EQ(status, true);
     ASSERT_EQ(result, 42);
 
-    status = my_atoi("12 abc", &result);
+    status = jl_atoi("12 abc", &result);
     ASSERT_EQ(status, true);
     ASSERT_EQ(result, 12);
 }

@@ -1,4 +1,4 @@
-.global my_read
+.global jl_read
 // Reads from stdin
 //
 // Input:
@@ -11,7 +11,7 @@
 
 .text
 
-my_read:
+jl_read:
     mov x8, #63         // read syscall is number 63
     svc #0              // execute system call
     ret                 // return

@@ -1,4 +1,4 @@
-.global my_utoa
+.global jl_utoa
 // Converts an uint64_t integer to string
 //
 // Accepted:
@@ -22,7 +22,7 @@
 .text
 
 // todo, handle negative integers. Maybe use NEG and store a flag so we can use NEG again at end?
-my_utoa:
+jl_utoa:
     // PROLOGUE: often used to store x29 and x30
     str x30, [sp, #-16]!        // allocate 16 bytes on the stack, store x30 (link register, return address)  
 

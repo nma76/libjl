@@ -17,6 +17,6 @@ void test_getchar(void) {
     close(fds[0]);
 
     // Call getchar and evaluate the result
-    int c = my_getchar();
+    int c = jl_getchar();
     ASSERT_EQ(c, 'A');
 }

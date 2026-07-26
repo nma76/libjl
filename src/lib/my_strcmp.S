@@ -1,4 +1,4 @@
-.global my_strcmp
+.global jl_strcmp
 // Compare two strings
 //
 // Input:
@@ -13,7 +13,7 @@
 
 .text
 
-my_strcmp:
+jl_strcmp:
 
 loop:
     ldrb w9, [x0], #1       // read first character from x0 into w9 and increate pointer by one

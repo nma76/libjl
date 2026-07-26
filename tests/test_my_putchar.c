@@ -21,14 +21,14 @@ void test_putchar(void) {
     ssize_t n;
 
     chr = ' ';
-    result = my_putchar(chr);
+    result = jl_putchar(chr);
     n = read(fds[0], buffer, sizeof(buffer));
     ASSERT_EQ(n, 1);
     ASSERT_EQ(buffer[0], chr);
     ASSERT_EQ(result, 32);
 
     chr = 'A';
-    result = my_putchar(chr);
+    result = jl_putchar(chr);
     ASSERT_EQ(result, 65);
 
     // restore stdout

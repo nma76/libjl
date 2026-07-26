@@ -18,11 +18,11 @@ void test_puts(void) {
     int result;
 
     const char *str1 = "Hello from puts\n";
-    result = my_puts(str1);
+    result = jl_puts(str1);
     ASSERT_EQ(result, 16);
 
     const char *str2 = "Hellö from puts\n";
-    result = my_puts(str2);
+    result = jl_puts(str2);
     ASSERT_EQ(result, 17);
 
     // restore stdout

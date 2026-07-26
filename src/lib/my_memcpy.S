@@ -1,4 +1,4 @@
-.global my_memcpy
+.global jl_memcpy
 // Compare two strings
 //
 // Input:
@@ -12,7 +12,7 @@
 
 .text
 
-my_memcpy:
+jl_memcpy:
     cbz x2, done            // early exit if x2 is zero
     mov x9, x0              // store original pointer to dest in x9
 

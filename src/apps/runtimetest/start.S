@@ -19,11 +19,22 @@ _start:
     bl runtime_init
     // init finished
 
-    //bl runtime_get_envp
-    //ldr x0, [x0]
-    //bl my_puts
+    b test_argv_exists
 
-    // test envp.S
+    // test envp_exists
+test_envp_exists:
+    ldr x0, =envp_name      // name to look for
+    bl envp_exists          // check if exists, result is in x0
+    ldr x1, =buffer         // buffer holding the result
+    bl my_itoa              // call my_itoa to get a digit
+    
+    ldr x0, =buffer         // load buffer to print into x0
+    bl my_puts              // print result
+    b exit
+
+
+    // test envp_get
+test_envp_get:
     ldr x0, =envp_name
     bl envp_get
 
@@ -36,12 +47,29 @@ _start:
 failed:
     ldr x0, =failed_str
     bl my_puts
+    b exit
 
-    // Test argv.S
-    //mov x0, #2                  // Input: index of the argv we want pointer to
-    //bl argv_get                 // call argv_get to get the pointer
-    //bl my_puts
-    //
+
+
+    // test argv_exists
+test_argv_exists:
+    mov x0, #3              // argument index to look for
+    bl argv_exists          // check if exists, result is in x0
+    ldr x1, =buffer         // buffer holding the result
+    bl my_itoa              // call my_itoa to get a digit
+    
+    ldr x0, =buffer         // load buffer to print into x0
+    bl my_puts              // print result
+    b exit
+
+
+    // Test argv_get
+test_argv_get:    
+    mov x0, #1                  // Input: index of the argv we want pointer to
+    bl argv_get                 // call argv_get to get the pointer
+    bl my_puts
+
+    b exit
 
     // Test runtime.S
     //bl runtime_get_argc

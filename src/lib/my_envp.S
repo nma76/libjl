@@ -1,21 +1,51 @@
-// Handles environment variables for apps written in assembly
+// Handles environment variables
 //
-// Input:
-//      x0  - name of variable to look for (eg. ldr x0, =envp_name)
-//
-// temporary registers:
+// scratch registers:
 //      x9  - pointer to envp, fetched from runtime
 //      x10 - current envp entry 
-//      x11 - temporary copy of pointer to input string (env name)
-//      x12 - temporary copy of pointer to the current envp entry
+//      x11 - search pointer (input string)
+//      x12 - env entry pointer (current envp entry)
 //      x13 - current char from input string
 //      x14 - current char from current envp entry
 //
 
+.global envp_exists
 .global envp_get
 
 .text
 
+//
+// ENVP_EXISTS
+// Check if a given environment variable exists
+//
+// Input:
+//      x0 - pointer to a string containing the name of the variable
+//
+// Returns:
+//      true/false depending on if it exists
+//
+envp_exists:
+    // prologue - save link register and x0 on the stack
+    str x30, [sp, #-16]!            // allocate 16 bytes on the stack, store x30 (link register, return address)  
+
+    bl envp_get                     // jump to envp_get to try to get the value
+    cbz x0, envp_exists_epilogue    // if result is zero, the variable was not found and we can return whats in x0
+    mov x0, #1                      // else, we return one.
+
+envp_exists_epilogue:
+    ldr x30, [sp], #16              // restore x30 from stack
+    ret
+
+//
+// ENVP_GET
+// Get a pointer to the value of a given environment variable
+//
+// Input:
+//      x0 - pointer to a string containing the name of the variable
+//
+// Returns:
+//      Pointer to the value part of the variable
+//
 envp_get:
     // prologue - save link register and x0 on the stack
     str x30, [sp, #-16]!            // allocate 16 bytes on the stack, store x30 (link register, return address)  
@@ -34,7 +64,7 @@ envp_get_loop:
 
 envp_get_prefix_cmp:
     ldrb w13, [x11], #1             // load next byte of search string (from our input) into x13 and bump pointer
-    cbz w13, check_envp_get_equal   // we reached end of input string. A match only exists if the next char in current envp entry is =
+    cbz w13, envp_get_check_equal   // we reached end of input string. A match only exists if the next char in current envp entry is =
 
     ldrb w14, [x12], #1             // load next byte of the current envp entry into x14 and bump pointer
 
@@ -43,18 +73,18 @@ envp_get_prefix_cmp:
    
     b envp_get_prefix_cmp           // if the first byte matches, compare the next one
 
-check_envp_get_equal:
+envp_get_check_equal:
     ldrb w14, [x12]                 // load next byte in current entry into x14
     cmp w14, #'='                   // is it an =?
     b.ne envp_get_loop              // if not, back to loop. Else, we fall through to envp_get_found
 
 envp_get_found:
     add x0, x12, #1                 // move one char ahead to return everything after =
-    b epilogue
+    b envp_get_epilogue
 
 envp_get_not_found:
     mov x0, #0                      // No match, return NULL
 
-epilogue:
+envp_get_epilogue:
     ldr x30, [sp], #16              // restore x30 from stack
     ret

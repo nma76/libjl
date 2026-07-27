@@ -21,7 +21,9 @@ struct test_case tests[] = {
     { "jl_strlen",  test_strlen},
     { "jl_utoa",    test_utoa},
     { "jl_htoa",    test_htoa},
-    { "jl_write",   test_write}
+    { "jl_write",   test_write},
+    { "jl_open",    test_open},
+    { "jl_close",   test_close}
 };
 
 int main(void) {

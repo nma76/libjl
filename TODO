@@ -18,3 +18,54 @@ ldrb w10, [x15, w10, uxtw]      // w10 contains the index (the rest from divisio
 ASSERT_EQ_INT
 ASSERT_EQ_UINT
 ASSERT_EQ_SIZE
+
+
+
+
+
+jlinfo
+
+jlinfo 0.1
+
+System
+------
+OS
+Kernel
+Architecture
+CPU
+
+Memory
+------
+Total RAM
+Available RAM
+
+User
+----
+Username
+Home directory
+
+Environment
+-----------
+PATH
+LANG
+TERM
+
+
+0.2
+- CPU-features
+- Cache
+- Uptime
+
+0.3
+- Diskar
+- Mounts
+- Filesystem
+
+0.4
+- Nätverk
+- Interfaces
+- IPv4/IPv6
+
+0.5
+- Processer
+- Trådar

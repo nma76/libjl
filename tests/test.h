@@ -30,6 +30,8 @@ void test_strlen(void);
 void test_utoa(void);
 void test_htoa(void);
 void test_write(void);
+void test_open(void);
+void test_close(void);
 
 #define ASSERT_TRUE(expr) \
     do { \

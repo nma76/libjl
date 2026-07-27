@@ -11,6 +11,8 @@ int jl_strcmp(char *source1, char *source2);
 void *jl_memcpy(void *restrict dest, const void *restrict src, size_t n);
 void *jl_memset(void *dest, int c, size_t n);
 
+int jl_open(const char *path, int flags);
+int jl_close(int fd);
 ssize_t jl_write(int fd, const void *buf, size_t count);
 ssize_t jl_read(int fd, void *buf, size_t count);
 int jl_putchar(int c);

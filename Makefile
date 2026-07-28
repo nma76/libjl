@@ -1,8 +1,7 @@
-CC      := gcc
-AS      := gcc
-LD      := ld
+CC := gcc
+LD := ld
 
-CFLAGS  := -Wall -Iinclude
+CFLAGS := -Wall -Iinclude
 
 #
 # ----------------------------------------------------------------------
@@ -18,8 +17,6 @@ LIBRARY := libjl.a
 #
 # ----------------------------------------------------------------------
 # Applications
-# Each application lives in src/apps/<name>/
-# and must contain start.S
 # ----------------------------------------------------------------------
 #
 
@@ -30,7 +27,6 @@ APP_BINS := $(addprefix bin/,$(APP_NAMES))
 #
 # ----------------------------------------------------------------------
 # Tests
-# One single test runner built from all C files in tests/
 # ----------------------------------------------------------------------
 #
 
@@ -80,10 +76,22 @@ $(TEST_BIN): $(TEST_SRC) $(LIBRARY)
 # ----------------------------------------------------------------------
 #
 
-bin/%: src/apps/%/start.S $(LIBRARY)
-	@mkdir -p bin obj
-	$(AS) -c $< -o obj/$*.o
-	$(LD) obj/$*.o $(LIBRARY) -o $@
+define BUILD_APP
+
+APP_$(1)_SRC := $(wildcard src/apps/$(1)/*.S)
+APP_$(1)_OBJ := $$(patsubst src/apps/$(1)/%.S,obj/$(1)_%.o,$$(APP_$(1)_SRC))
+
+$$(APP_$(1)_OBJ): obj/$(1)_%.o: src/apps/$(1)/%.S
+	@mkdir -p obj
+	$$(CC) -c $$< -o $$@
+
+bin/$(1): $$(APP_$(1)_OBJ) $(LIBRARY)
+	@mkdir -p bin
+	$$(LD) $$^ -o $$@
+
+endef
+
+$(foreach app,$(APP_NAMES),$(eval $(call BUILD_APP,$(app))))
 
 #
 # ----------------------------------------------------------------------
@@ -92,6 +100,6 @@ bin/%: src/apps/%/start.S $(LIBRARY)
 #
 
 clean:
-	rm -rf obj/*
-	rm -rf bin/*
+	rm -rf obj
+	rm -rf bin
 	rm -f $(LIBRARY)

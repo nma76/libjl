@@ -20,7 +20,15 @@ ASSERT_EQ_UINT
 ASSERT_EQ_SIZE
 
 
-
+jlinfo/
+├── start.S         ; _start och programflöde
+├── banner.S        ; banner + print_banner()
+├── system.S        ; OS/kernel-information
+├── cpu.S           ; CPU-information
+├── memory.S        ; minne
+├── terminal.S      ; terminalstorlek, färger osv.
+├── strings.S       ; ev. jlinfo-specifika stränghjälpare
+└── exit.S          ; avslut/felhantering
 
 
 jlinfo

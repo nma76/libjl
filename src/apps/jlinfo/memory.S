@@ -40,10 +40,11 @@ mem_available_value:
 // -----------------------------------------------------
 // 
 
-
-.global print_mem
+.include "macros.inc"
 
 .section .text
+
+.global print_mem
 
 print_mem:
     // PROLOGUE: often used to store x29 and x30
@@ -77,17 +78,8 @@ print_mem_banner_done:
 // Total Memory ----------------------------------------
 //
 print_mem_total:
-    adrp x19, mem_total_heading                     // get address to the banner
-    add x19, x19, :lo12:mem_total_heading
-
-    mov x0, x19                                     // jl_puts wants a string in x0
-    bl jl_puts                                      // print string and return size in x0
-
-    adrp x19, mem_total_value                       // get address to the dummy value
-    add x19, x19, :lo12:mem_total_value
-
-    mov x0, x19                                     // jl_puts wants a string in x0
-    bl jl_puts                                      // print string and return size in x0
+    print_label mem_total_heading
+    print_label mem_total_value
 //
 // -----------------------------------------------------
 //
@@ -96,17 +88,8 @@ print_mem_total:
 // Memory Available-------------------------------------
 //
 print_mem_available:
-    adrp x19, mem_available_heading
-    add x19, x19, :lo12:mem_available_heading
-
-    mov x0, x19                                     // jl_puts wants a string in x0
-    bl jl_puts                                      // print string and return size in x0
-
-    adrp x19, mem_available_value                   // get address to the dummy value
-    add x19, x19, :lo12:mem_available_value
-
-    mov x0, x19                                     // jl_puts wants a string in x0
-    bl jl_puts                                      // print string and return size in x0
+    print_label mem_available_heading
+    print_label mem_available_value
 //
 // -----------------------------------------------------
 //

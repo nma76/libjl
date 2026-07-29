@@ -83,7 +83,7 @@ APP_$(1)_OBJ := $$(patsubst src/apps/$(1)/%.S,obj/$(1)_%.o,$$(APP_$(1)_SRC))
 
 $$(APP_$(1)_OBJ): obj/$(1)_%.o: src/apps/$(1)/%.S
 	@mkdir -p obj
-	$$(CC) -c $$< -o $$@
+	$$(CC) -Isrc/apps/$(1) -c $$< -o $$@
 
 bin/$(1): $$(APP_$(1)_OBJ) $(LIBRARY)
 	@mkdir -p bin

@@ -8,19 +8,22 @@
 .align 4 
 
 mem_banner: 
-.asciz "                                                 \n" 
-.asciz " Memory                                          \n" 
-.asciz " ----------------------------------------------- \n" 
+.ascii "\033[1;34m"
+.ascii "                                                 \n" 
+.ascii " Memory                                          \n" 
+.ascii "\033[0m\033[1;36m" 
+.ascii " ----------------------------------------------- \n" 
+.asciz "\033[0m\n" 
 .byte 0
 
 //
 // Headings --------------------------------------------
 //
 mem_total_heading:
-.asciz " Total RAM: "
+.asciz "\033[2;37m Total RAM: \033[0m"
 
 mem_available_heading:
-.asciz " Available RAM: "
+.asciz "\033[2;37m Available RAM: \033[0m"
 //
 // -----------------------------------------------------
 // 
@@ -29,10 +32,10 @@ mem_available_heading:
 // Dummy values ----------------------------------------
 //
 mem_total_value:
-.asciz "8GB\n"
+.asciz "\033[1;37m8GB \033[0m\n"
 
 mem_available_value:
-.asciz "6GB\n"
+.asciz "\033[1;37m6GB \033[0m\n"
 //
 // -----------------------------------------------------
 // 

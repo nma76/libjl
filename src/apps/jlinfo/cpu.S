@@ -8,22 +8,25 @@
 .align 4 
 
 cpu_banner: 
-.asciz "                                                 \n" 
-.asciz " CPU                                             \n" 
-.asciz " ----------------------------------------------- \n" 
+.ascii "\033[1;34m"
+.ascii "                                                 \n" 
+.ascii " CPU                                             \n" 
+.ascii "\033[0m\033[1;36m" 
+.ascii " ----------------------------------------------- \n" 
+.asciz "\033[0m\n" 
 .byte 0
 
 //
 // Headings --------------------------------------------
 //
 cpu_architecture_heading:
-.asciz " Architecture: "
+.asciz "\033[2;37m Architecture: \033[0m"
 
 cpu_model_heading:
-.asciz " Model: "
+.asciz "\033[2;37m Model: \033[0m"
 
 cpu_cores_heading:
-.asciz " Cores: "
+.asciz "\033[2;37m Cores: \033[0m"
 //
 // -----------------------------------------------------
 // 
@@ -32,13 +35,13 @@ cpu_cores_heading:
 // Dummy values ----------------------------------------
 //
 cpu_architecture_value:
-.asciz "aarch64\n"
+.asciz "\033[1;37maarch64 \033[0m\n"
 
 cpu_model_value:
-.asciz "ARM\n"
+.asciz "\033[1;37mARM \033[0m\n"
 
 cpu_cores_value:
-.asciz "8\n"
+.asciz "\033[1;37m8 \033[0m\n"
 //
 // -----------------------------------------------------
 // 

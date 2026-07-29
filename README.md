@@ -3,7 +3,8 @@
 **libjl** är ett litet standardbibliotek skrivet från grunden i ARM64 Assembly för Linux.
 
 Projektets syfte är att utforska ARM64-arkitekturen, Linux systemanrop och hur ett eget bibliotek kan byggas upp utan beroende av libc. Biblioteket används av exempelprogram, där **jlinfo** är slutmålet.
-
+  
+Det här projektet började som en övning i ARM64 Assembly men växte så småningom till ett eget litet standardbibliotek och en samling verktyg byggda ovanpå det.  
 ---
 
 ## Projektstruktur

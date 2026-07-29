@@ -4,9 +4,9 @@
 //      
 //
 
-.global _start
-
 .section .text
+
+.global _start
 
 _start:
     bl print_banner

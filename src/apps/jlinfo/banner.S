@@ -20,17 +20,18 @@ jlinfo_banner:
 .asciz "\033[0m\n" 
 .byte 0
 
-.global print_banner
+.include "macros.inc"
 
 .section .text
+
+.global print_banner
 
 //
 // jlinfo Banner ---------------------------------------
 //
 print_banner:
     // PROLOGUE: often used to store x29 and x30
-    stp x29, x30, [sp, #-16]!           // Allokera 16 bytes OCH spara x29/x30
-    mov x29, sp                         // Uppdatera frame pointer till nuvarande stacktop
+    PROLOGUE
 
     adrp x19, jlinfo_banner             // get the address to jlinfo_banner with the correct offset (this is  equal to ldr, x19, =jlinfo_banner)
     add x19, x19, :lo12:jlinfo_banner   
@@ -48,6 +49,6 @@ loop:
 
 done:
     // EPILOGUE: often used to restore x29 and x30
-    ldp x29, x30, [sp], #16             // restore x29, x30 and stack
+    EPILOGUE
 
     ret     

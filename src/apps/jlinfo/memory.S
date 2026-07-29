@@ -47,9 +47,13 @@ mem_available_value:
 .global print_mem
 
 print_mem:
-    // PROLOGUE: often used to store x29 and x30
-    stp x29, x30, [sp, #-16]!                       // Allokera 16 bytes OCH spara x29/x30
-    mov x29, sp                                     // Uppdatera frame pointer till nuvarande stacktop
+//
+// PROLOGUE: often used to store x29 and x30 -----------
+//
+    PROLOGUE
+//
+// -----------------------------------------------------
+//
 
 //
 // Memory Banner ------------------------------------------
@@ -78,8 +82,7 @@ print_mem_banner_done:
 // Total Memory ----------------------------------------
 //
 print_mem_total:
-    print_label mem_total_heading
-    print_label mem_total_value
+    PRINT_FIELD mem_total_heading, mem_total_value
 //
 // -----------------------------------------------------
 //
@@ -88,14 +91,13 @@ print_mem_total:
 // Memory Available-------------------------------------
 //
 print_mem_available:
-    print_label mem_available_heading
-    print_label mem_available_value
+    PRINT_FIELD mem_available_heading, mem_available_value
 //
 // -----------------------------------------------------
 //
 
 done:
     // EPILOGUE: often used to restore x29 and x30
-    ldp x29, x30, [sp], #16                         // restore x29, x30 and stack
+    EPILOGUE
 
     ret     

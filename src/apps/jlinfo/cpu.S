@@ -57,8 +57,7 @@ print_cpu:
 //
 // PROLOGUE: often used to store x29 and x30 -----------
 //
-    stp x29, x30, [sp, #-16]!                       // Allokera 16 bytes OCH spara x29/x30
-    mov x29, sp                                     // Uppdatera frame pointer till nuvarande stacktop
+    PROLOGUE
 //
 // -----------------------------------------------------
 //
@@ -90,8 +89,7 @@ print_cpu_banner_done:
 // CPU Architecture ------------------------------------
 //
 print_cpu_architecture:
-    print_label cpu_architecture_heading    
-    print_label cpu_architecture_value
+    PRINT_FIELD cpu_architecture_heading, cpu_architecture_value
 //
 // -----------------------------------------------------
 //
@@ -100,8 +98,7 @@ print_cpu_architecture:
 // CPU Model -------------------------------------------
 //
 print_cpu_model:
-    print_label cpu_model_heading    
-    print_label cpu_model_value
+    PRINT_FIELD cpu_model_heading, cpu_model_value
 //
 // -----------------------------------------------------
 //
@@ -110,8 +107,7 @@ print_cpu_model:
 // CPU Cores -------------------------------------------
 //
 print_cpu_cores:
-    print_label cpu_cores_heading    
-    print_label cpu_cores_value
+    PRINT_FIELD cpu_cores_heading, cpu_cores_value
 //
 // -----------------------------------------------------
 //
@@ -120,6 +116,6 @@ done:
 //
 // EPILOGUE: often used to restore x29 and x30 ---------
 //
-    ldp x29, x30, [sp], #16                         // restore x29, x30 and stack
+    EPILOGUE
 
     ret     

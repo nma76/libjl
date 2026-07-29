@@ -4,6 +4,7 @@
 
 _start:
     bl print_banner
+    bl print_cpu
 
 exit:
     // Exit using linux syscall

@@ -35,6 +35,12 @@ jlinfo
 
 jlinfo 0.1
 
+CPU
+------
+Architecture
+Model
+Cores
+
 System
 ------
 OS
@@ -46,6 +52,11 @@ Memory
 ------
 Total RAM
 Available RAM
+
+Kernel
+-------
+Version:
+Hostname:
 
 User
 ----

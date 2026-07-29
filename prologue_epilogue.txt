@@ -22,5 +22,4 @@
 
 
     // EPILOGUE
-    add sp, sp, #16             // restore allocated bytes
     ldp x29, x30, [sp], #16     // restore x29, x30 and stack

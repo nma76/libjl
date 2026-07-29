@@ -1,3 +1,9 @@
+// Module that handles program banner
+//
+// scratch registers:
+//      x19  - index of argument to get
+//
+
 .section .rodata 
 .align 4 
 
@@ -17,7 +23,7 @@ jlinfo_banner:
 .section .text
 
 //
-// jlinfo Banner
+// jlinfo Banner ---------------------------------------
 //
 print_banner:
     // PROLOGUE: often used to store x29 and x30

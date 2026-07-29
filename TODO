@@ -14,10 +14,17 @@ using it would be like:
 adr x15, lookup_table           // address to lookup table
 ldrb w10, [x15, w10, uxtw]      // w10 contains the index (the rest from division)
 
-
+More asserts:
 ASSERT_EQ_INT
 ASSERT_EQ_UINT
 ASSERT_EQ_SIZE
+
+New function in lib:
+jl_print_label_value:
+x0 = label
+x1 = value
+Outputs:
+Architecture: aarch64
 
 
 jlinfo/

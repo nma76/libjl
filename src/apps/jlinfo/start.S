@@ -1,3 +1,9 @@
+// Main program for jlinfo
+//
+// scratch registers:
+//      
+//
+
 .global _start
 
 .section .text

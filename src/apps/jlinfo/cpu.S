@@ -65,22 +65,7 @@ print_cpu:
 //
 // CPU Banner ------------------------------------------
 //
-print_cpu_banner:
-    adrp x19, cpu_banner                            // get the address to cpu_banner with the correct offset (this is  equal to ldr, x19, =cpu_banner)
-    add x19, x19, :lo12:cpu_banner   
-
-print_cpu_banner_loop:
-    ldrb w20, [x19]                                 // read the first byte from string
-    cbz w20, print_cpu_banner_done                  // if null, no more strings
-
-    mov x0, x19                                     // jl_puts wants a string in x0
-    bl jl_puts                                      // print string and return size in x0
-
-    add x19, x19, x0                                // jump ahead with the number of bytes written
-    add x19, x19, #1                                // jump ahead one more byte to skipp null-pointer
-    b print_cpu_banner_loop                         // start over with the next line
-
-print_cpu_banner_done:
+    PRINT_HEADING_BLOCK cpu_banner
 //
 // -----------------------------------------------------
 //

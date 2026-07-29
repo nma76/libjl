@@ -58,22 +58,7 @@ print_mem:
 //
 // Memory Banner ------------------------------------------
 //
-print_mem_banner:
-    adrp x19, mem_banner                            // get the address to mem_banner with the correct offset (this is  equal to ldr, x19, =mem_banner)
-    add x19, x19, :lo12:mem_banner   
-
-print_mem_banner_loop:
-    ldrb w20, [x19]                                 // read the first byte from string
-    cbz w20, print_mem_banner_done                  // if null, no more strings
-
-    mov x0, x19                                     // jl_puts wants a string in x0
-    bl jl_puts                                      // print string and return size in x0
-
-    add x19, x19, x0                                // jump ahead with the number of bytes written
-    add x19, x19, #1                                // jump ahead one more byte to skipp null-pointer
-    b print_mem_banner_loop                         // start over with the next line
-
-print_mem_banner_done:
+    PRINT_HEADING_BLOCK mem_banner
 //
 // -----------------------------------------------------
 //

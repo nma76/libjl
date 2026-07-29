@@ -48,6 +48,11 @@ Architecture
 Model
 Cores
 
+Memory
+------
+Total RAM
+Available RAM
+
 System
 ------
 OS
@@ -55,10 +60,6 @@ Kernel
 Architecture
 CPU
 
-Memory
-------
-Total RAM
-Available RAM
 
 Kernel
 -------

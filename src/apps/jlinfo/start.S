@@ -11,6 +11,7 @@
 _start:
     bl print_banner
     bl print_cpu
+    bl print_mem
 
 exit:
     // Exit using linux syscall

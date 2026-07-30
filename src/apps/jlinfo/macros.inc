@@ -33,5 +33,5 @@ loop_\@:
     add x19, x19, #1                    // jump ahead one more byte to skipp null-pointer
     b loop_\@                           // start over with the next line
 
-    done_\@:
+done_\@:
 .endm

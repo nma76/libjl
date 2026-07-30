@@ -2,22 +2,13 @@
 //
 // scratch registers:
 //      
-//
-.section .rodata 
-.align 4 
-
-clear_screen: 
-.ascii "\033[H\033[2J"
-
-.include "macros.inc"
 
 .section .text
 
 .global _start
 
 _start:
-    // Clear Screen
-    PRINT_STRING clear_screen
+    bl clear_screen
 
     // Print Sys info
     bl print_banner

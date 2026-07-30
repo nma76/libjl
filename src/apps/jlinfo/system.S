@@ -35,7 +35,7 @@ sys_kernel_value:
 .asciz "\033[1;37m7.0.0-28-generic \033[0m\n"
 
 sys_os_value:
-.asciz "\033[1;37maarch64 GNU/Linux \033[0m\n"
+.asciz "\033[1;37maarch64 GNU/Linux (dummy) \033[0m\n"
 //
 // -----------------------------------------------------
 // 
@@ -66,7 +66,7 @@ print_sys:
 //
 // Kernel ----------------------------------------------
 //
-print_mem_total:
+print_sys_kernel:
     PRINT_FIELD sys_kernel_heading, sys_kernel_value
 //
 // -----------------------------------------------------
@@ -75,8 +75,12 @@ print_mem_total:
 //
 // OS --------------------------------------------------
 //
-print_mem_available:
-    PRINT_FIELD sys_os_heading, sys_os_value
+print_sys_os:
+
+    PRINT_STRING sys_os_heading
+    PRINT_GLOBAL_STRING uname_sysname
+
+    //PRINT_FIELD sys_os_heading, sys_os_value
 //
 // -----------------------------------------------------
 //

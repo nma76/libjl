@@ -4,6 +4,13 @@
     bl   jl_puts  
 .endm
 
+.macro PRINT_GLOBAL_STRING label
+    adrp x1, \label                    
+    add  x1, x1, :lo12:\label
+    ldr x0, [x1]
+    bl   jl_puts  
+.endm
+
 .macro PRINT_FIELD heading, value
     PRINT_STRING \heading
     PRINT_STRING \value

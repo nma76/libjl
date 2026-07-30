@@ -8,7 +8,11 @@
 .global _start
 
 _start:
+    // clear terminal
     bl clear_screen
+
+    // read uname inte global variables
+    bl read_uname
 
     // Print Sys info
     bl print_banner

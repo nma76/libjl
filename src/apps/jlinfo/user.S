@@ -7,10 +7,10 @@
 .section .rodata 
 .align 4 
 
-mem_banner: 
+usr_banner: 
 .ascii "\033[1;34m"
 .ascii "                                                 \n" 
-.ascii " Memory                                          \n" 
+.ascii " User                                            \n" 
 .ascii "\033[0m\033[1;36m" 
 .ascii " ----------------------------------------------- \n" 
 .asciz "\033[0m" 
@@ -19,11 +19,11 @@ mem_banner:
 //
 // Headings --------------------------------------------
 //
-mem_total_heading:
-.asciz "\033[2;37m Total RAM: \033[0m"
+usr_name_heading:
+.asciz "\033[2;37m Username: \033[0m"
 
-mem_available_heading:
-.asciz "\033[2;37m Available RAM: \033[0m"
+usr_homedir_heading:
+.asciz "\033[2;37m Home: \033[0m"
 //
 // -----------------------------------------------------
 // 
@@ -31,11 +31,11 @@ mem_available_heading:
 //
 // Dummy values ----------------------------------------
 //
-mem_total_value:
-.asciz "\033[1;37m8GB \033[0m\n"
+usr_name_value:
+.asciz "\033[1;37mdarklord \033[0m\n"
 
-mem_available_value:
-.asciz "\033[1;37m6GB \033[0m\n"
+usr_homedir_value:
+.asciz "\033[1;37m/home/darklord \033[0m\n"
 //
 // -----------------------------------------------------
 // 
@@ -44,9 +44,9 @@ mem_available_value:
 
 .section .text
 
-.global print_mem
+.global print_usr
 
-print_mem:
+print_usr:
 //
 // PROLOGUE: often used to store x29 and x30 -----------
 //
@@ -56,27 +56,27 @@ print_mem:
 //
 
 //
-// Memory Banner ------------------------------------------
+// User Banner -----------------------------------------
 //
-    PRINT_HEADING_BLOCK mem_banner
+    PRINT_HEADING_BLOCK usr_banner
 //
 // -----------------------------------------------------
 //
 
 //
-// Total Memory ----------------------------------------
+// User ------------------------------------------------
 //
 print_mem_total:
-    PRINT_FIELD mem_total_heading, mem_total_value
+    PRINT_FIELD usr_name_heading, usr_name_value
 //
 // -----------------------------------------------------
 //
 
 //
-// Memory Available-------------------------------------
+// Home Directory --------------------------------------
 //
 print_mem_available:
-    PRINT_FIELD mem_available_heading, mem_available_value
+    PRINT_FIELD usr_homedir_heading, usr_homedir_value
 //
 // -----------------------------------------------------
 //

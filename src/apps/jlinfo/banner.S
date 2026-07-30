@@ -17,7 +17,7 @@ jlinfo_banner:
 .ascii " ╚██████╔╝███████╗██║██║ ╚████║██║     ╚██████╔╝\n" 
 .ascii "  ╚═════╝ ╚══════╝╚═╝╚═╝  ╚═══╝╚═╝      ╚═════╝ \n" 
 .ascii "                                                \n"
-.asciz "\033[0m\n" 
+.asciz "\033[0m" 
 .byte 0
 
 .include "macros.inc"

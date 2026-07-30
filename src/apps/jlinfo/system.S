@@ -7,10 +7,10 @@
 .section .rodata 
 .align 4 
 
-mem_banner: 
+sys_banner: 
 .ascii "\033[1;34m"
 .ascii "                                                 \n" 
-.ascii " Memory                                          \n" 
+.ascii " System                                          \n" 
 .ascii "\033[0m\033[1;36m" 
 .ascii " ----------------------------------------------- \n" 
 .asciz "\033[0m" 
@@ -19,11 +19,11 @@ mem_banner:
 //
 // Headings --------------------------------------------
 //
-mem_total_heading:
-.asciz "\033[2;37m Total RAM: \033[0m"
+sys_kernel_heading:
+.asciz "\033[2;37m Kernel: \033[0m"
 
-mem_available_heading:
-.asciz "\033[2;37m Available RAM: \033[0m"
+sys_os_heading:
+.asciz "\033[2;37m OS: \033[0m"
 //
 // -----------------------------------------------------
 // 
@@ -31,11 +31,11 @@ mem_available_heading:
 //
 // Dummy values ----------------------------------------
 //
-mem_total_value:
-.asciz "\033[1;37m8GB \033[0m\n"
+sys_kernel_value:
+.asciz "\033[1;37m7.0.0-28-generic \033[0m\n"
 
-mem_available_value:
-.asciz "\033[1;37m6GB \033[0m\n"
+sys_os_value:
+.asciz "\033[1;37maarch64 GNU/Linux \033[0m\n"
 //
 // -----------------------------------------------------
 // 
@@ -44,9 +44,9 @@ mem_available_value:
 
 .section .text
 
-.global print_mem
+.global print_sys
 
-print_mem:
+print_sys:
 //
 // PROLOGUE: often used to store x29 and x30 -----------
 //
@@ -56,27 +56,27 @@ print_mem:
 //
 
 //
-// Memory Banner ------------------------------------------
+// System Banner ---------------------------------------
 //
-    PRINT_HEADING_BLOCK mem_banner
+    PRINT_HEADING_BLOCK sys_banner
 //
 // -----------------------------------------------------
 //
 
 //
-// Total Memory ----------------------------------------
+// Kernel ----------------------------------------------
 //
 print_mem_total:
-    PRINT_FIELD mem_total_heading, mem_total_value
+    PRINT_FIELD sys_kernel_heading, sys_kernel_value
 //
 // -----------------------------------------------------
 //
 
 //
-// Memory Available-------------------------------------
+// OS --------------------------------------------------
 //
 print_mem_available:
-    PRINT_FIELD mem_available_heading, mem_available_value
+    PRINT_FIELD sys_os_heading, sys_os_value
 //
 // -----------------------------------------------------
 //

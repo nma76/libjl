@@ -32,10 +32,10 @@ usr_homedir_heading:
 // Dummy values ----------------------------------------
 //
 usr_name_value:
-.asciz "\033[1;37mdarklord \033[0m\n"
+.asciz "\033[1;37mdarklord \033[0m"
 
 usr_homedir_value:
-.asciz "\033[1;37m/home/darklord \033[0m\n"
+.asciz "\033[1;37m/home/darklord \033[0m"
 //
 // -----------------------------------------------------
 // 
@@ -67,7 +67,10 @@ print_usr:
 // User ------------------------------------------------
 //
 print_mem_total:
-    PRINT_FIELD usr_name_heading, usr_name_value
+    PRINT_STRING usr_name_heading
+    PRINT_STRING usr_name_value
+    //PRINT_STRING_FROM_FUNC get_nodename
+    PRINT_NEWLINE
 //
 // -----------------------------------------------------
 //
@@ -76,7 +79,10 @@ print_mem_total:
 // Home Directory --------------------------------------
 //
 print_mem_available:
-    PRINT_FIELD usr_homedir_heading, usr_homedir_value
+    PRINT_STRING usr_homedir_heading
+    PRINT_STRING usr_homedir_value
+    //PRINT_STRING_FROM_FUNC get_nodename
+    PRINT_NEWLINE
 //
 // -----------------------------------------------------
 //

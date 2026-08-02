@@ -32,10 +32,10 @@ mem_available_heading:
 // Dummy values ----------------------------------------
 //
 mem_total_value:
-.asciz "\033[1;37m8GB \033[0m\n"
+.asciz "\033[1;37m8GB \033[0m"
 
 mem_available_value:
-.asciz "\033[1;37m6GB \033[0m\n"
+.asciz "\033[1;37m6GB \033[0m"
 //
 // -----------------------------------------------------
 // 
@@ -67,7 +67,10 @@ print_mem:
 // Total Memory ----------------------------------------
 //
 print_mem_total:
-    PRINT_FIELD mem_total_heading, mem_total_value
+    PRINT_STRING mem_total_heading
+    PRINT_STRING mem_total_value
+    //PRINT_STRING_FROM_FUNC get_nodename
+    PRINT_NEWLINE
 //
 // -----------------------------------------------------
 //
@@ -76,7 +79,10 @@ print_mem_total:
 // Memory Available-------------------------------------
 //
 print_mem_available:
-    PRINT_FIELD mem_available_heading, mem_available_value
+    PRINT_STRING mem_available_heading
+    PRINT_STRING mem_available_value
+    //PRINT_STRING_FROM_FUNC get_nodename
+    PRINT_NEWLINE
 //
 // -----------------------------------------------------
 //

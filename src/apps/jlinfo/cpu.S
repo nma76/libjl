@@ -35,13 +35,13 @@ cpu_cores_heading:
 // Dummy values ----------------------------------------
 //
 cpu_architecture_value:
-.asciz "\033[1;37maarch64 \033[0m\n"
+.asciz "\033[1;37maarch64 \033[0m"
 
 cpu_model_value:
-.asciz "\033[1;37mARM \033[0m\n"
+.asciz "\033[1;37mARM \033[0m"
 
 cpu_cores_value:
-.asciz "\033[1;37m8 \033[0m\n"
+.asciz "\033[1;37m8 \033[0m"
 //
 // -----------------------------------------------------
 // 
@@ -74,7 +74,10 @@ print_cpu:
 // CPU Architecture ------------------------------------
 //
 print_cpu_architecture:
-    PRINT_FIELD cpu_architecture_heading, cpu_architecture_value
+    PRINT_STRING cpu_architecture_heading
+    PRINT_STRING cpu_architecture_value
+    //PRINT_STRING_FROM_FUNC get_nodename
+    PRINT_NEWLINE
 //
 // -----------------------------------------------------
 //
@@ -83,7 +86,10 @@ print_cpu_architecture:
 // CPU Model -------------------------------------------
 //
 print_cpu_model:
-    PRINT_FIELD cpu_model_heading, cpu_model_value
+    PRINT_STRING cpu_model_heading
+    PRINT_STRING cpu_model_value
+    //PRINT_STRING_FROM_FUNC get_nodename
+    PRINT_NEWLINE
 //
 // -----------------------------------------------------
 //
@@ -92,7 +98,10 @@ print_cpu_model:
 // CPU Cores -------------------------------------------
 //
 print_cpu_cores:
-    PRINT_FIELD cpu_cores_heading, cpu_cores_value
+    PRINT_STRING cpu_cores_heading
+    PRINT_STRING cpu_cores_value
+    //PRINT_STRING_FROM_FUNC get_nodename
+    PRINT_NEWLINE
 //
 // -----------------------------------------------------
 //

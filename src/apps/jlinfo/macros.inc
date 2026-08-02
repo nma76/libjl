@@ -1,21 +1,6 @@
-.macro PRINT_STRING label
-    adrp x0, \label                    
-    add  x0, x0, :lo12:\label
-    bl   jl_puts  
-.endm
-
-.macro PRINT_GLOBAL_STRING label
-    adrp x1, \label                    
-    add  x1, x1, :lo12:\label
-    ldr x0, [x1]
-    bl   jl_puts  
-.endm
-
-.macro PRINT_FIELD heading, value
-    PRINT_STRING \heading
-    PRINT_STRING \value
-.endm
-
+//
+// PROLOGUE and EPILOGUE -------------------------------
+//
 .macro PROLOGUE
     stp x29, x30, [sp, #-16]!           // Allokera 16 bytes OCH spara x29/x30
     mov x29, sp                         // Uppdatera frame pointer till nuvarande stacktop
@@ -23,6 +8,41 @@
 
 .macro EPILOGUE
     ldp x29, x30, [sp], #16             // restore x29, x30 and stack
+    ret
+.endm
+//
+// -----------------------------------------------------
+//
+
+//
+// Print Macros ----------------------------------------
+//
+.macro PRINT_STRING label
+    adrp x0, \label                    
+    add  x0, x0, :lo12:\label
+    bl jl_puts  
+.endm
+
+.macro PRINT_GLOBAL_STRING label
+    adrp x1, \label                    
+    add  x1, x1, :lo12:\label
+    ldr x0, [x1]
+    bl jl_puts  
+.endm
+
+.macro PRINT_STRING_FROM_FUNC func
+    bl \func
+    bl jl_puts
+.endm
+
+.macro PRINT_NEWLINE
+    mov x0, #10
+    bl jl_putchar
+.endm
+
+.macro PRINT_FIELD heading, value
+    PRINT_STRING \heading
+    PRINT_STRING \value
 .endm
 
 .macro PRINT_HEADING_BLOCK heading_block
@@ -42,3 +62,20 @@ loop_\@:
 
 done_\@:
 .endm
+//
+// -----------------------------------------------------
+//
+
+//
+// Uname Macros ----------------------------------------
+//
+.macro UNAME_GETTER offset
+    adrp x0, uname_buffer                   // x0 now points to beginning of buffer
+    add x0, x0, :lo12:uname_buffer
+    add x0, x0, #\offset
+
+    ret
+.endm
+//
+// -----------------------------------------------------
+//

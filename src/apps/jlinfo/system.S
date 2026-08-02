@@ -19,23 +19,23 @@ sys_banner:
 //
 // Headings --------------------------------------------
 //
+sys_os_heading:
+.asciz "\033[2;37m OS: \033[0m"
+
+sys_nodename_heading:
+.asciz "\033[2;37m Hostname: \033[0m"
+
 sys_kernel_heading:
 .asciz "\033[2;37m Kernel: \033[0m"
 
-sys_os_heading:
-.asciz "\033[2;37m OS: \033[0m"
-//
-// -----------------------------------------------------
-// 
+sys_compilerdetails_heading:
+.asciz "\033[2;37m Compiler: \033[0m"
 
-//
-// Dummy values ----------------------------------------
-//
-sys_kernel_value:
-.asciz "\033[1;37m7.0.0-28-generic \033[0m\n"
+sys_architecture_heading:
+.asciz "\033[2;37m Architecture: \033[0m"
 
-sys_os_value:
-.asciz "\033[1;37maarch64 GNU/Linux (dummy) \033[0m\n"
+sys_nisdomain_heading:
+.asciz "\033[2;37m NIS Domain: \033[0m"
 //
 // -----------------------------------------------------
 // 
@@ -64,10 +64,12 @@ print_sys:
 //
 
 //
-// Kernel ----------------------------------------------
+// Host ------------------------------------------------
 //
-print_sys_kernel:
-    PRINT_FIELD sys_kernel_heading, sys_kernel_value
+print_sys_nodename:
+    PRINT_STRING sys_nodename_heading
+    PRINT_STRING_FROM_FUNC get_nodename
+    PRINT_NEWLINE
 //
 // -----------------------------------------------------
 //
@@ -76,11 +78,53 @@ print_sys_kernel:
 // OS --------------------------------------------------
 //
 print_sys_os:
-
     PRINT_STRING sys_os_heading
-    PRINT_GLOBAL_STRING uname_sysname
+    PRINT_STRING_FROM_FUNC get_sysname
+    PRINT_NEWLINE
+//
+// -----------------------------------------------------
+//
 
-    //PRINT_FIELD sys_os_heading, sys_os_value
+//
+// Kernel ----------------------------------------------
+//
+print_sys_kernel:
+    PRINT_STRING sys_kernel_heading
+    PRINT_STRING_FROM_FUNC get_kernelversion
+    PRINT_NEWLINE
+//
+// -----------------------------------------------------
+//
+
+//
+// Compiler --------------------------------------------
+//
+print_sys_compilerdetails:
+    PRINT_STRING sys_compilerdetails_heading
+    PRINT_STRING_FROM_FUNC get_compilerdetails
+    PRINT_NEWLINE
+//
+// -----------------------------------------------------
+//
+
+//
+// Architecture ----------------------------------------
+//
+print_sys_architecture:
+    PRINT_STRING sys_architecture_heading
+    PRINT_STRING_FROM_FUNC get_architecture
+    PRINT_NEWLINE
+//
+// -----------------------------------------------------
+//
+
+//
+// NIS Domain ------------------------------------------
+//
+print_sys_nisdomain:
+    PRINT_STRING sys_nisdomain_heading
+    PRINT_STRING_FROM_FUNC get_nisdomain
+    PRINT_NEWLINE
 //
 // -----------------------------------------------------
 //
@@ -88,5 +132,3 @@ print_sys_os:
 done:
     // EPILOGUE: often used to restore x29 and x30
     EPILOGUE
-
-    ret     

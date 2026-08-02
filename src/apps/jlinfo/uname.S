@@ -15,25 +15,19 @@
 //
 uname_buffer: .skip 390
 
-.section .data
-.align 3
-
-.global uname_sysname
-.global uname_nodename
-
-uname_sysname:
-    .quad 0
-uname_nodename:
-    .quad 0
-
-
 .include "macros.inc"
 
 .section .text
 
-.global read_uname
+.global init_uname
+.global get_sysname
+.global get_nodename
+.global get_kernelversion
+.global get_compilerdetails
+.global get_architecture
+.global get_nisdomain
 
-read_uname:
+init_uname:
     //
     // sys call to uname to read information into buffer
     //
@@ -43,32 +37,23 @@ read_uname:
     svc #0                                  // call Linux kernel
 
     cmp x0, #0                              // check if syscall was successfull (less than 0)
-    blt read_uname_error
 
-    //
-    // store sysname into uname_sysname
-    //
-    adrp x0, uname_buffer                   // x0 now points to beginning of buffer
-    add x0, x0, :lo12:uname_buffer
-
-    adrp x1, uname_sysname
-    add x1, x1, :lo12:uname_sysname
-    str x0, [x1]
-
-    //
-    // store nodename into uname_sysname
-    //
-    adrp x0, uname_buffer                   // x0 now points to beginning of buffer
-    add x0, x0, :lo12:uname_buffer
-    add x0, x0, #65
-
-    adrp x1, uname_nodename
-    add x1, x1, :lo12:uname_nodename
-    str x0, [x1]
-
-    // TODO: add the remaining 4 values in uname structure
-    // TODO: turn this into a macro
-
-
-read_uname_error:
     ret
+
+get_sysname:
+    UNAME_GETTER 0
+
+get_nodename:
+    UNAME_GETTER 65
+
+get_kernelversion:
+    UNAME_GETTER 130
+
+get_compilerdetails:
+    UNAME_GETTER 195
+
+get_architecture:
+    UNAME_GETTER 260
+
+get_nisdomain:
+    UNAME_GETTER 325

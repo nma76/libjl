@@ -37,6 +37,4 @@ print_banner:
 
 done:
     // EPILOGUE: often used to restore x29 and x30
-    EPILOGUE
-
-    ret     
+    EPILOGUE 

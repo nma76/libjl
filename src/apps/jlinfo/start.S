@@ -12,7 +12,7 @@ _start:
     bl clear_screen
 
     // read uname inte global variables
-    bl read_uname
+    bl init_uname
 
     // Print Sys info
     bl print_banner

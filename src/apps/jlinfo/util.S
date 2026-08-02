@@ -22,5 +22,3 @@ clear_screen:
 
     // EPILOGUE: often used to restore x29 and x30
     EPILOGUE
-
-    ret

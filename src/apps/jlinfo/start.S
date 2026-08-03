@@ -13,6 +13,8 @@ _start:
 
     // read uname inte global variables
     bl init_uname
+    bl init_cpuinfo
+    bl print_cpuinfo_debug
 
     // Print Sys info
     bl print_banner

@@ -42,7 +42,7 @@ jlinfo
 
 jlinfo 0.1
 
-CPU
+CPU                     (idé: istället för att räkna förekomst av ex. "processor". Sök igenom filen baklänges efter första "processor", läs värdet, plussa på 1. Detta bör alltid vara antal cores)
 ------
 Architecture
 Model
@@ -52,13 +52,6 @@ Memory
 ------
 Total RAM
 Available RAM
-
-System
-------
-OS
-Kernel
-Architecture
-CPU
 
 
 Kernel

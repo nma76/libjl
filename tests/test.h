@@ -24,6 +24,7 @@ void test_putchar(void);
 void test_puts(void);
 void test_read(void);
 void test_strchr(void);
+void test_strstr(void);
 void test_strcmp(void);
 void test_strcpy(void);
 void test_strlen(void);

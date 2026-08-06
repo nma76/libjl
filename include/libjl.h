@@ -6,6 +6,7 @@
 size_t jl_strlen(const char *source);
 char *jl_strcpy(char *dest, const char *source);
 char *jl_strchr(const char *string, int c);
+char *jl_strstr(const char *haystack, const char *needle);
 int jl_strcmp(char *source1, char *source2); 
 
 void *jl_memcpy(void *restrict dest, const void *restrict src, size_t n);

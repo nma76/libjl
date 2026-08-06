@@ -16,6 +16,7 @@ struct test_case tests[] = {
     { "jl_puts",    test_puts},
     { "jl_read",    test_read},
     { "jl_strchr",  test_strchr},
+    { "jl_strstr",  test_strstr},
     { "jl_strcmp",  test_strcmp},
     { "jl_strcpy",  test_strcpy},
     { "jl_strlen",  test_strlen},

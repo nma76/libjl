@@ -1,6 +1,8 @@
 .global jl_strstr
 // Search a string for a specific string
 //
+// for each position in haystack, compare to needle, if needle reach end return startposition
+//
 // Input:
 //      x0 is pointer to haystack, the string to search
 //      x1 is pointer to needle, the string to find
@@ -8,9 +10,11 @@
 //     pointer to the first char where the string is located, or null
 //
 // temporary registers:
-//      w9  
-//      w10 
-//      w11 
+//      x2      current haystack position in outer loop
+//      x3      current haystack position in inner loop
+//      x4      current needle pointer in inner loop
+//      w10     byte read from needle
+//      w11     byte read from haystack
 
 .text
 
@@ -21,8 +25,8 @@ jl_strstr:
     mov x2, x0                      // x2 = current haystack position (outer loop)
 
 outer_loop:
-    ldrb w9, [x2]                   // read byte from haystack
-    cbz w9, not_found               // end of haystack = no match
+    ldrb w11, [x2]                   // read byte from haystack
+    cbz w11, not_found               // end of haystack = no match
 
     mov x3, x2                      // x3 = current haystack position (inner loop)
     mov x4, x1                      // x4 = current needle pointer (inner loop)

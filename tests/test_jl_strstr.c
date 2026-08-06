@@ -12,4 +12,9 @@ void test_strstr(void) {
     const char *needle2 = "myx";
     char *result2 = jl_strstr(haystack2, needle2);
     ASSERT_EQ(result2, NULL);
+
+    const char *haystack3 = "This is my haystack!";
+    const char *needle3 = "";
+    char *result3 = jl_strstr(haystack3, needle3);
+    ASSERT_STR_EQ(result3, "This is my haystack!");
 }

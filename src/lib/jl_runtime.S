@@ -50,7 +50,7 @@ runtime_get_argc:
     ret
 
 //
-// RUNTIME_GET_ARGC
+// RUNTIME_GET_ARGV
 // Get pointer to the start of argv
 //
 // Returns:

@@ -35,6 +35,17 @@
     bl jl_puts
 .endm
 
+.macro PRINT_NUMBER_FROM_FUNC func
+    bl \func
+
+    adrp x1, itoa_buffer
+    add x1, x1, :lo12:itoa_buffer
+    bl jl_itoa
+
+    ldr x0, =itoa_buffer
+    bl jl_puts
+.endm
+
 .macro PRINT_NEWLINE
     mov x0, #10
     bl jl_putchar

@@ -46,6 +46,12 @@ cpu_cores_value:
 // -----------------------------------------------------
 // 
 
+.section .bss
+.align 3
+
+itoa_buffer:
+    .space 33
+
 .include "macros.inc"
 
 .section .text
@@ -99,8 +105,7 @@ print_cpu_model:
 //
 print_cpu_cores:
     PRINT_STRING cpu_cores_heading
-    PRINT_STRING cpu_cores_value
-    //PRINT_STRING_FROM_FUNC get_nodename
+    PRINT_NUMBER_FROM_FUNC get_corecount
     PRINT_NEWLINE
 //
 // -----------------------------------------------------

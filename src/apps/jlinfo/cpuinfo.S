@@ -61,14 +61,6 @@ init_cpuinfo:
 
     EPILOGUE
 
-print_cpuinfo_debug:
-    PROLOGUE
-
-    ldr x0, =cpuinfo_buffer
-    bl jl_puts
-
-    EPILOGUE
-
 //
 // get_corecount
 // search the content from /proc/cpuinfo and count occurencies of "processor" to get number of cores

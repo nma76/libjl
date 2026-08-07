@@ -42,7 +42,8 @@
     add x1, x1, :lo12:temp_itoa_buffer
     bl jl_itoa
 
-    ldr x0, =temp_itoa_buffer
+    adrp x0, temp_itoa_buffer
+    add x0, x0, :lo12:temp_itoa_buffer
     bl jl_puts
 .endm
 

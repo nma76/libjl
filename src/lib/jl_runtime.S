@@ -29,7 +29,8 @@ runtime_saved_sp:
 //      x0 - stack pointer
 //
 runtime_init:
-    ldr x9, =runtime_saved_sp       // load address to variable into x9
+    adrp x9, runtime_saved_sp       // load address to variable into x9
+    add x9, x9, :lo12:runtime_saved_sp
     str x0, [x9]                    // save pointer in x0 to variable
 
     ret
@@ -42,7 +43,8 @@ runtime_init:
 //      x0 - number of arguments
 //
 runtime_get_argc:
-    ldr x9, =runtime_saved_sp       // load address to variable into x9
+    adrp x9, runtime_saved_sp       // load address to variable into x9
+    add x9, x9, :lo12:runtime_saved_sp
     ldr x9, [x9]                    // load stackpointer at x9 and store it to x9 (overwrite)
     ldr x0, [x9]                    // load the value at pointer in x9 into x0, this is the register for return value
     ret
@@ -55,7 +57,8 @@ runtime_get_argc:
 //      x0 - pointer to first entry in argv
 //
 runtime_get_argv:
-    ldr x9, =runtime_saved_sp       // load address to variable into x9
+    adrp x9, runtime_saved_sp       // load address to variable into x9
+    add x9, x9, :lo12:runtime_saved_sp
     ldr x9, [x9]                    // load saved stackpointer at x9 and store it to x9 (overwrite)
     add x0, x9, #8                  // add 8 bytes to the stored, initial, pointer. We know ARGV is located there
     ret
@@ -68,7 +71,8 @@ runtime_get_argv:
 //      x0 - pointer to first entry in envp
 //
 runtime_get_envp:
-    ldr x9, =runtime_saved_sp       // load address to variable into x9
+    adrp x9, runtime_saved_sp       // load address to variable into x9
+    add x9, x9, :lo12:runtime_saved_sp
     ldr x9, [x9]                    // load saved stackpointer at x9 and store it to x9 (overwrite)
     ldr x10, [x9]                   // load the value (argc) at pointer in x9 into x10, this is the register for return value
 

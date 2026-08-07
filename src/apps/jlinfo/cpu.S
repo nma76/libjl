@@ -39,9 +39,6 @@ cpu_architecture_value:
 
 cpu_model_value:
 .asciz "\033[1;37mARM \033[0m"
-
-cpu_cores_value:
-.asciz "\033[1;37m8 \033[0m"
 //
 // -----------------------------------------------------
 // 

@@ -15,10 +15,6 @@ _start:
     bl init_uname
     bl init_cpuinfo
     
-    // Debug
-    //bl print_cpuinfo_debug
-    //
-
     // Print Sys info
     bl print_banner
     bl print_sys

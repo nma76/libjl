@@ -46,12 +46,6 @@ cpu_cores_value:
 // -----------------------------------------------------
 // 
 
-.section .bss
-.align 3
-
-itoa_buffer:
-    .space 33
-
 .include "macros.inc"
 
 .section .text

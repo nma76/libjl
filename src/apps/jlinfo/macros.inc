@@ -38,11 +38,11 @@
 .macro PRINT_NUMBER_FROM_FUNC func
     bl \func
 
-    adrp x1, itoa_buffer
-    add x1, x1, :lo12:itoa_buffer
+    adrp x1, temp_itoa_buffer
+    add x1, x1, :lo12:temp_itoa_buffer
     bl jl_itoa
 
-    ldr x0, =itoa_buffer
+    ldr x0, =temp_itoa_buffer
     bl jl_puts
 .endm
 

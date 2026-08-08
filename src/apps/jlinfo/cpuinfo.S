@@ -17,6 +17,9 @@ processor_label:
 architecture_label:
 .asciz "CPU architecture"
 
+implementer_label:
+.asciz "CPU implementer"
+
 .section .bss
 .align 3
 
@@ -26,12 +29,13 @@ cpuinfo_buffer: .skip 8192
 
 .section .text
 
-.global init_cpuinfo
+.global read_cpuinfo
 .global print_cpuinfo_debug
-.global get_corecount
+.global get_corecount_value
 .global get_architecture_value
+.global get_implementer_value
 
-init_cpuinfo:
+read_cpuinfo:
     PROLOGUE
 
     str x19, [sp, #-16]!                        // store x19 on the stack so we can restore it. It's callee-saved, so it's important not to destroy!
@@ -66,10 +70,10 @@ init_cpuinfo:
     EPILOGUE
 
 //
-// get_corecount
+// get_corecount_value
 // search the content from /proc/cpuinfo and count occurencies of "processor" to get number of cores
 //
-get_corecount:
+get_corecount_value:
     PROLOGUE
     str x19, [sp, #-16]!                        // store x19 on the stack so we can restore it. It's callee-saved, so it's important not to destroy!
 
@@ -107,6 +111,23 @@ get_architecture_value:
 
     adrp x1, architecture_label                 // load the key to look for
     add x1, x1, :lo12:architecture_label
+
+    bl find_key_value
+
+    EPILOGUE
+
+//
+// get_implementer_value
+// get cpu implementer (model) value from /proc/cpuinfo
+//
+get_implementer_value:
+    PROLOGUE
+
+    adrp x0, cpuinfo_buffer                     // load the content from proc/cpuinfo
+    add x0, x0, :lo12:cpuinfo_buffer
+
+    adrp x1, implementer_label                 // load the key to look for
+    add x1, x1, :lo12:implementer_label
 
     bl find_key_value
 

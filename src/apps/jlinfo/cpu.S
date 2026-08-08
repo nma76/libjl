@@ -31,18 +31,6 @@ cpu_cores_heading:
 // -----------------------------------------------------
 // 
 
-//
-// Dummy values ----------------------------------------
-//
-cpu_architecture_value:
-.asciz "\033[1;37maarch64 \033[0m"
-
-cpu_model_value:
-.asciz "\033[1;37mARM \033[0m"
-//
-// -----------------------------------------------------
-// 
-
 .include "macros.inc"
 
 .section .text
@@ -58,10 +46,6 @@ print_cpu:
 //
 // -----------------------------------------------------
 //
-
-// DEBUG! REMOVE
-//    PRINT_STRING_FROM_FUNC get_architecture_value
-// -------------
 
 //
 // CPU Banner ------------------------------------------
@@ -87,8 +71,7 @@ print_cpu_architecture:
 //
 print_cpu_model:
     PRINT_STRING cpu_model_heading
-    PRINT_STRING cpu_model_value
-    //PRINT_STRING_FROM_FUNC get_nodename
+    PRINT_STRING_FROM_FUNC get_implementer_value
     PRINT_NEWLINE
 //
 // -----------------------------------------------------
@@ -99,7 +82,7 @@ print_cpu_model:
 //
 print_cpu_cores:
     PRINT_STRING cpu_cores_heading
-    PRINT_NUMBER_FROM_FUNC get_corecount
+    PRINT_NUMBER_FROM_FUNC get_corecount_value
     PRINT_NEWLINE
 //
 // -----------------------------------------------------

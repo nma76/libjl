@@ -15,7 +15,7 @@ _start:
     bl init_uname
 
     // read cpu info
-    bl init_cpuinfo
+    bl read_cpuinfo
     
     // print info
     bl print_banner

@@ -1,3 +1,5 @@
+Error handling
+
 Refactor jl_itoa and jl_htoa to use lookup tables
 
 jl_itoa: 
@@ -19,26 +21,6 @@ ASSERT_EQ_INT
 ASSERT_EQ_UINT
 ASSERT_EQ_SIZE
 
-New function in lib:
-jl_print_label_value:
-x0 = label
-x1 = value
-Outputs:
-Architecture: aarch64
-
-
-jlinfo/
-├── start.S         ; _start och programflöde
-├── banner.S        ; banner + print_banner()
-├── system.S        ; OS/kernel-information
-├── cpu.S           ; CPU-information
-├── memory.S        ; minne
-├── terminal.S      ; terminalstorlek, färger osv.
-├── strings.S       ; ev. jlinfo-specifika stränghjälpare
-└── exit.S          ; avslut/felhantering
-
-
-jlinfo
 
 jlinfo 0.1
 

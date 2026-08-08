@@ -11,13 +11,13 @@
 cpuinfo_path:
 .asciz "/proc/cpuinfo"
 
-processor_label:
+cpuinfo_processor_label:
 .asciz "processor"
 
-architecture_label:
+cpuinfo_architecture_label:
 .asciz "CPU architecture"
 
-implementer_label:
+cpuinfo_implementer_label:
 .asciz "CPU implementer"
 
 .section .bss
@@ -29,13 +29,12 @@ cpuinfo_buffer: .skip 8192
 
 .section .text
 
-.global read_cpuinfo
-.global print_cpuinfo_debug
-.global get_corecount_value
-.global get_architecture_value
-.global get_implementer_value
+.global cpuinfo_read
+.global cpuinfo_get_corecount
+.global cpuinfo_get_architecture
+.global cpuinfo_get_implementer
 
-read_cpuinfo:
+cpuinfo_read:
     PROLOGUE
 
     str x19, [sp, #-16]!                        // store x19 on the stack so we can restore it. It's callee-saved, so it's important not to destroy!
@@ -70,10 +69,10 @@ read_cpuinfo:
     EPILOGUE
 
 //
-// get_corecount_value
+// cpuinfo_get_corecount
 // search the content from /proc/cpuinfo and count occurencies of "processor" to get number of cores
 //
-get_corecount_value:
+cpuinfo_get_corecount:
     PROLOGUE
     str x19, [sp, #-16]!                        // store x19 on the stack so we can restore it. It's callee-saved, so it's important not to destroy!
 
@@ -82,53 +81,53 @@ get_corecount_value:
     adrp x0, cpuinfo_buffer                     // load the haystack, which is the content from proc/cpuinfo
     add x0, x0, :lo12:cpuinfo_buffer
 
-corecount_loop:
-    adrp x1, processor_label                    // load the needle, in this case "processor"
-    add x1, x1, :lo12:processor_label
+cpuinfo_corecount_loop:
+    adrp x1, cpuinfo_processor_label            // load the needle, in this case "processor"
+    add x1, x1, :lo12:cpuinfo_processor_label
 
     bl jl_strstr                                // find the firs occurence using jl_strstr
 
-    cbz x0, corecount_done                      // if x0 is null, no more occurencies was found
+    cbz x0, cpuinfo_corecount_done                      // if x0 is null, no more occurencies was found
     add x0, x0, #1                              // if we found the string we was looking for, add a byte so we can search again without getting the same hit
     add x19, x19, #1                            // increase the counter
-    b corecount_loop                            // and do another search
+    b cpuinfo_corecount_loop                    // and do another search
 
-corecount_done:
+cpuinfo_corecount_done:
     mov x0, x19                                 // move counter to x0, our return value
 
     ldr x19, [sp], #16                          // restore x19 from stack
     EPILOGUE
 
 //
-// get_architecture_value
+// cpuinfo_get_architecture
 // get cpu architecture value from /proc/cpuinfo
 //
-get_architecture_value:
+cpuinfo_get_architecture:
     PROLOGUE
 
     adrp x0, cpuinfo_buffer                     // load the content from proc/cpuinfo
     add x0, x0, :lo12:cpuinfo_buffer
 
-    adrp x1, architecture_label                 // load the key to look for
-    add x1, x1, :lo12:architecture_label
+    adrp x1, cpuinfo_architecture_label                 // load the key to look for
+    add x1, x1, :lo12:cpuinfo_architecture_label
 
-    bl find_key_value
+    bl util_find_key_value
 
     EPILOGUE
 
 //
-// get_implementer_value
+// cpuinfo_get_implementer
 // get cpu implementer (model) value from /proc/cpuinfo
 //
-get_implementer_value:
+cpuinfo_get_implementer:
     PROLOGUE
 
     adrp x0, cpuinfo_buffer                     // load the content from proc/cpuinfo
     add x0, x0, :lo12:cpuinfo_buffer
 
-    adrp x1, implementer_label                 // load the key to look for
-    add x1, x1, :lo12:implementer_label
+    adrp x1, cpuinfo_implementer_label                 // load the key to look for
+    add x1, x1, :lo12:cpuinfo_implementer_label
 
-    bl find_key_value
+    bl util_find_key_value
 
     EPILOGUE

@@ -9,20 +9,20 @@
 
 _start:
     // clear terminal
-    bl clear_screen
+    bl util_clear_screen
 
     // read uname info
-    bl init_uname
+    bl uname_read
 
     // read cpu info
-    bl read_cpuinfo
+    bl cpuinfo_read
     
     // print info
-    bl print_banner
-    bl print_sys
-    bl print_cpu
-    bl print_mem
-    bl print_usr
+    bl banner_print
+    bl system_print
+    bl cpu_print
+    bl memory_print
+    bl user_print
 
 exit:
     // Exit using linux syscall

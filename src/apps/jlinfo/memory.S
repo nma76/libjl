@@ -7,7 +7,7 @@
 .section .rodata 
 .align 4 
 
-mem_banner: 
+memory_banner: 
 .ascii "\033[1;34m"
 .ascii "                                                 \n" 
 .ascii " Memory                                          \n" 
@@ -19,10 +19,10 @@ mem_banner:
 //
 // Headings --------------------------------------------
 //
-mem_total_heading:
+memory_total_heading:
 .asciz "\033[2;37m Total RAM: \033[0m"
 
-mem_available_heading:
+memory_available_heading:
 .asciz "\033[2;37m Available RAM: \033[0m"
 //
 // -----------------------------------------------------
@@ -31,10 +31,10 @@ mem_available_heading:
 //
 // Dummy values ----------------------------------------
 //
-mem_total_value:
+memory_total_value:
 .asciz "\033[1;37m8GB \033[0m"
 
-mem_available_value:
+memory_available_value:
 .asciz "\033[1;37m6GB \033[0m"
 //
 // -----------------------------------------------------
@@ -44,9 +44,9 @@ mem_available_value:
 
 .section .text
 
-.global print_mem
+.global memory_print
 
-print_mem:
+memory_print:
 //
 // PROLOGUE: often used to store x29 and x30 -----------
 //
@@ -58,7 +58,7 @@ print_mem:
 //
 // Memory Banner ------------------------------------------
 //
-    PRINT_HEADING_BLOCK mem_banner
+    PRINT_HEADING_BLOCK memory_banner
 //
 // -----------------------------------------------------
 //
@@ -66,9 +66,9 @@ print_mem:
 //
 // Total Memory ----------------------------------------
 //
-print_mem_total:
-    PRINT_STRING mem_total_heading
-    PRINT_STRING mem_total_value
+memory_print_total:
+    PRINT_STRING memory_total_heading
+    PRINT_STRING memory_total_value
     //PRINT_STRING_FROM_FUNC get_nodename
     PRINT_NEWLINE
 //
@@ -78,15 +78,14 @@ print_mem_total:
 //
 // Memory Available-------------------------------------
 //
-print_mem_available:
-    PRINT_STRING mem_available_heading
-    PRINT_STRING mem_available_value
+memory_print_available:
+    PRINT_STRING memory_available_heading
+    PRINT_STRING memory_available_value
     //PRINT_STRING_FROM_FUNC get_nodename
     PRINT_NEWLINE
 //
 // -----------------------------------------------------
 //
 
-done:
     // EPILOGUE: often used to restore x29 and x30
     EPILOGUE   

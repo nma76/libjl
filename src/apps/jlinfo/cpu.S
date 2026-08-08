@@ -35,10 +35,9 @@ cpu_cores_heading:
 
 .section .text
 
-.global print_cpu
+.global cpu_print
 
-
-print_cpu:
+cpu_print:
 //
 // PROLOGUE: often used to store x29 and x30 -----------
 //
@@ -58,9 +57,9 @@ print_cpu:
 //
 // CPU Architecture ------------------------------------
 //
-print_cpu_architecture:
+cpu_print_architecture:
     PRINT_STRING cpu_architecture_heading
-    PRINT_STRING_FROM_FUNC get_architecture_value
+    PRINT_STRING_FROM_FUNC cpuinfo_get_architecture
     PRINT_NEWLINE
 //
 // -----------------------------------------------------
@@ -69,9 +68,9 @@ print_cpu_architecture:
 //
 // CPU Model -------------------------------------------
 //
-print_cpu_model:
+cpu_print_model:
     PRINT_STRING cpu_model_heading
-    PRINT_STRING_FROM_FUNC get_implementer_value
+    PRINT_STRING_FROM_FUNC cpuinfo_get_implementer
     PRINT_NEWLINE
 //
 // -----------------------------------------------------
@@ -80,15 +79,14 @@ print_cpu_model:
 //
 // CPU Cores -------------------------------------------
 //
-print_cpu_cores:
+cpu_print_cores:
     PRINT_STRING cpu_cores_heading
-    PRINT_NUMBER_FROM_FUNC get_corecount_value
+    PRINT_NUMBER_FROM_FUNC cpuinfo_get_corecount
     PRINT_NEWLINE
 //
 // -----------------------------------------------------
 //
 
-done:
 //
 // EPILOGUE: often used to restore x29 and x30 ---------
 //

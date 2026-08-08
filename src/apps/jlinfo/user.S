@@ -7,7 +7,7 @@
 .section .rodata 
 .align 4 
 
-usr_banner: 
+user_banner: 
 .ascii "\033[1;34m"
 .ascii "                                                 \n" 
 .ascii " User                                            \n" 
@@ -19,10 +19,10 @@ usr_banner:
 //
 // Headings --------------------------------------------
 //
-usr_name_heading:
+user_name_heading:
 .asciz "\033[2;37m Username: \033[0m"
 
-usr_homedir_heading:
+user_homedir_heading:
 .asciz "\033[2;37m Home: \033[0m"
 //
 // -----------------------------------------------------
@@ -31,10 +31,10 @@ usr_homedir_heading:
 //
 // Dummy values ----------------------------------------
 //
-usr_name_value:
+user_name_value:
 .asciz "\033[1;37mdarklord \033[0m"
 
-usr_homedir_value:
+user_homedir_value:
 .asciz "\033[1;37m/home/darklord \033[0m"
 //
 // -----------------------------------------------------
@@ -44,9 +44,9 @@ usr_homedir_value:
 
 .section .text
 
-.global print_usr
+.global user_print
 
-print_usr:
+user_print:
 //
 // PROLOGUE: often used to store x29 and x30 -----------
 //
@@ -58,7 +58,7 @@ print_usr:
 //
 // User Banner -----------------------------------------
 //
-    PRINT_HEADING_BLOCK usr_banner
+    PRINT_HEADING_BLOCK user_banner
 //
 // -----------------------------------------------------
 //
@@ -67,8 +67,8 @@ print_usr:
 // User ------------------------------------------------
 //
 print_mem_total:
-    PRINT_STRING usr_name_heading
-    PRINT_STRING usr_name_value
+    PRINT_STRING user_name_heading
+    PRINT_STRING user_name_value
     //PRINT_STRING_FROM_FUNC get_nodename
     PRINT_NEWLINE
 //
@@ -79,14 +79,13 @@ print_mem_total:
 // Home Directory --------------------------------------
 //
 print_mem_available:
-    PRINT_STRING usr_homedir_heading
-    PRINT_STRING usr_homedir_value
+    PRINT_STRING user_homedir_heading
+    PRINT_STRING user_homedir_value
     //PRINT_STRING_FROM_FUNC get_nodename
     PRINT_NEWLINE
 //
 // -----------------------------------------------------
 //
 
-done:
     // EPILOGUE: often used to restore x29 and x30
     EPILOGUE 

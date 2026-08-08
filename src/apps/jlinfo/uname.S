@@ -20,15 +20,15 @@ uname_buffer: .skip 390
 
 .section .text
 
-.global init_uname
-.global get_sysname
-.global get_nodename
-.global get_kernelversion
-.global get_compilerdetails
-.global get_architecture
-.global get_nisdomain
+.global uname_read
+.global uname_get_sysname
+.global uname_get_nodename
+.global uname_get_kernelversion
+.global uname_get_compilerdetails
+.global uname_get_architecture
+.global uname_get_nisdomain
 
-init_uname:
+uname_read:
     //
     // sys call to uname to read information into buffer
     //
@@ -41,20 +41,20 @@ init_uname:
 
     ret
 
-get_sysname:
+uname_get_sysname:
     UNAME_GETTER 0
 
-get_nodename:
+uname_get_nodename:
     UNAME_GETTER 65
 
-get_kernelversion:
+uname_get_kernelversion:
     UNAME_GETTER 130
 
-get_compilerdetails:
+uname_get_compilerdetails:
     UNAME_GETTER 195
 
-get_architecture:
+uname_get_architecture:
     UNAME_GETTER 260
 
-get_nisdomain:
+uname_get_nisdomain:
     UNAME_GETTER 325

@@ -7,7 +7,7 @@
 .section .rodata 
 .align 4 
 
-sys_banner: 
+system_banner: 
 .ascii "\033[1;34m"
 .ascii "                                                 \n" 
 .ascii " System                                          \n" 
@@ -19,22 +19,22 @@ sys_banner:
 //
 // Headings --------------------------------------------
 //
-sys_os_heading:
+system_os_heading:
 .asciz "\033[2;37m OS: \033[0m"
 
-sys_nodename_heading:
+system_nodename_heading:
 .asciz "\033[2;37m Hostname: \033[0m"
 
-sys_kernel_heading:
+system_kernel_heading:
 .asciz "\033[2;37m Kernel: \033[0m"
 
-sys_compilerdetails_heading:
+system_compilerdetails_heading:
 .asciz "\033[2;37m Compiler: \033[0m"
 
-sys_architecture_heading:
+system_architecture_heading:
 .asciz "\033[2;37m Architecture: \033[0m"
 
-sys_nisdomain_heading:
+system_nisdomain_heading:
 .asciz "\033[2;37m NIS Domain: \033[0m"
 //
 // -----------------------------------------------------
@@ -44,9 +44,9 @@ sys_nisdomain_heading:
 
 .section .text
 
-.global print_sys
+.global system_print
 
-print_sys:
+system_print:
 //
 // PROLOGUE: often used to store x29 and x30 -----------
 //
@@ -58,7 +58,7 @@ print_sys:
 //
 // System Banner ---------------------------------------
 //
-    PRINT_HEADING_BLOCK sys_banner
+    PRINT_HEADING_BLOCK system_banner
 //
 // -----------------------------------------------------
 //
@@ -66,9 +66,9 @@ print_sys:
 //
 // Host ------------------------------------------------
 //
-print_sys_nodename:
-    PRINT_STRING sys_nodename_heading
-    PRINT_STRING_FROM_FUNC get_nodename
+system_print_nodename:
+    PRINT_STRING system_nodename_heading
+    PRINT_STRING_FROM_FUNC uname_get_nodename
     PRINT_NEWLINE
 //
 // -----------------------------------------------------
@@ -77,9 +77,9 @@ print_sys_nodename:
 //
 // OS --------------------------------------------------
 //
-print_sys_os:
-    PRINT_STRING sys_os_heading
-    PRINT_STRING_FROM_FUNC get_sysname
+system_print_os:
+    PRINT_STRING system_os_heading
+    PRINT_STRING_FROM_FUNC uname_get_sysname
     PRINT_NEWLINE
 //
 // -----------------------------------------------------
@@ -88,9 +88,9 @@ print_sys_os:
 //
 // Kernel ----------------------------------------------
 //
-print_sys_kernel:
-    PRINT_STRING sys_kernel_heading
-    PRINT_STRING_FROM_FUNC get_kernelversion
+system_print_kernel:
+    PRINT_STRING system_kernel_heading
+    PRINT_STRING_FROM_FUNC uname_get_kernelversion
     PRINT_NEWLINE
 //
 // -----------------------------------------------------
@@ -99,9 +99,9 @@ print_sys_kernel:
 //
 // Compiler --------------------------------------------
 //
-print_sys_compilerdetails:
-    PRINT_STRING sys_compilerdetails_heading
-    PRINT_STRING_FROM_FUNC get_compilerdetails
+system_print_compilerdetails:
+    PRINT_STRING system_compilerdetails_heading
+    PRINT_STRING_FROM_FUNC uname_get_compilerdetails
     PRINT_NEWLINE
 //
 // -----------------------------------------------------
@@ -110,9 +110,9 @@ print_sys_compilerdetails:
 //
 // Architecture ----------------------------------------
 //
-print_sys_architecture:
-    PRINT_STRING sys_architecture_heading
-    PRINT_STRING_FROM_FUNC get_architecture
+system_print_architecture:
+    PRINT_STRING system_architecture_heading
+    PRINT_STRING_FROM_FUNC uname_get_architecture
     PRINT_NEWLINE
 //
 // -----------------------------------------------------
@@ -121,14 +121,13 @@ print_sys_architecture:
 //
 // NIS Domain ------------------------------------------
 //
-print_sys_nisdomain:
-    PRINT_STRING sys_nisdomain_heading
-    PRINT_STRING_FROM_FUNC get_nisdomain
+system_print_nisdomain:
+    PRINT_STRING system_nisdomain_heading
+    PRINT_STRING_FROM_FUNC uname_get_nisdomain
     PRINT_NEWLINE
 //
 // -----------------------------------------------------
 //
 
-done:
     // EPILOGUE: often used to restore x29 and x30
     EPILOGUE

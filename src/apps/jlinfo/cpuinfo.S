@@ -34,6 +34,10 @@ cpuinfo_buffer: .skip 8192
 .global cpuinfo_get_architecture
 .global cpuinfo_get_implementer
 
+//
+// cpuinfo_read
+// reads the file /proc/cpuinfo into a buffer and closes the file
+//
 cpuinfo_read:
     PROLOGUE
 

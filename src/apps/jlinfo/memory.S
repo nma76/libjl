@@ -28,18 +28,6 @@ memory_available_heading:
 // -----------------------------------------------------
 // 
 
-//
-// Dummy values ----------------------------------------
-//
-memory_total_value:
-.asciz "\033[1;37m8GB \033[0m"
-
-memory_available_value:
-.asciz "\033[1;37m6GB \033[0m"
-//
-// -----------------------------------------------------
-// 
-
 .include "macros.inc"
 
 .section .text
@@ -68,8 +56,7 @@ memory_print:
 //
 memory_print_total:
     PRINT_STRING memory_total_heading
-    PRINT_STRING memory_total_value
-    //PRINT_STRING_FROM_FUNC get_nodename
+    PRINT_STRING_FROM_FUNC meminfo_get_memtotal
     PRINT_NEWLINE
 //
 // -----------------------------------------------------
@@ -80,8 +67,7 @@ memory_print_total:
 //
 memory_print_available:
     PRINT_STRING memory_available_heading
-    PRINT_STRING memory_available_value
-    //PRINT_STRING_FROM_FUNC get_nodename
+    PRINT_STRING_FROM_FUNC meminfo_get_memavailable
     PRINT_NEWLINE
 //
 // -----------------------------------------------------

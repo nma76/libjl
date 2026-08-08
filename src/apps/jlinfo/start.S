@@ -11,11 +11,10 @@ _start:
     // clear terminal
     bl util_clear_screen
 
-    // read uname info
+    // collect system information and store it in buffers
     bl uname_read
-
-    // read cpu info
     bl cpuinfo_read
+    bl meminfo_read
     
     // print info
     bl banner_print

@@ -97,11 +97,15 @@ Tests written in C.
 
 The purpose is to verify that the functions in **libjl** work correctly by calling the library from a regular C program.
 
+The test suite includes a small custom test framework built around `test.c` and `test.h`. These files provide the common assertion helpers and test runner used by the individual test cases.
+
 Example:
 
 ```
 tests/
 
+test.c
+test.h
 test_strlen.c
 test_memcpy.c
 test_write.c

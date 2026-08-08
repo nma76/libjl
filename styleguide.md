@@ -1,16 +1,15 @@
-# libjl Style Guide
+# libjl and jlinfo Style Guide
 
-This document defines the coding style used throughout **libjl** and **jlinfo**.
-The purpose is consistency, readability and maintainability.
+This document reflects the conventions currently used in **libjl** and **jlinfo**. The goal is consistency, readability and maintainability across the assembly sources in this repository.
 
 ---
 
 # General Principles
 
-- Prefer readability over cleverness.
-- Write code that explains *what* it does.
-- Comments should explain **intent**, not individual instructions.
-- Refactor only when duplication becomes obvious.
+- Prefer simple and direct code over clever tricks.
+- Keep each function focused on one responsibility.
+- Comments should explain intent, structure or data flow.
+- Reuse existing patterns and macros before introducing new ones.
 
 ---
 
@@ -18,26 +17,30 @@ The purpose is consistency, readability and maintainability.
 
 Each module should have one clear responsibility.
 
-Example:
+Examples from the current codebase:
 
-```
+```asm
 cpuinfo.S     Reads and parses /proc/cpuinfo
 cpu.S         Prints CPU information
-uname.S       Reads uname() information
+uname.S       Wraps uname() and exposes getters
 system.S      Prints system information
 ```
 
-Separate:
+Use explicit sections for data and code:
 
-- data (.rodata / .bss)
-- macros
-- code (.text)
+- `.section .rodata` for constants and string literals
+- `.section .bss` for buffers and uninitialized data
+- `.section .text` for executable code
+
+Export public symbols with `.global`.
+
+jlinfo modules commonly include `macros.inc` when they use shared printing and stack helpers.
 
 ---
 
 # Function Layout
 
-Functions should follow the same structure whenever possible.
+Functions should follow a straightforward top-to-bottom structure.
 
 ```asm
 function_name:
@@ -49,34 +52,36 @@ function_name:
     ret
 ```
 
-Leaf functions should normally omit prologue/epilogue if no stack or callee-saved registers are needed.
+Leaf functions may omit prologue and epilogue when they do not need stack space or callee-saved register preservation. The library helpers in `jl_strlen.S` and `jl_memcpy.S` follow this style.
+
+When a function needs to preserve `x29`/`x30` or use stack space, use the shared `PROLOGUE` and `EPILOGUE` macros from `macros.inc`.
 
 ---
 
 # Labels
 
-Use descriptive labels.
+Use descriptive labels in snake_case.
 
-Example:
+Examples:
 
-```
-outer_loop
-inner_loop
+```asm
+cpuinfo_corecount_loop
+cpuinfo_corecount_done
 next_entry
 found
 not_found
 done
 ```
 
-Avoid generic labels like:
+Avoid generic names such as:
 
-```
+```asm
 loop1
 loop2
 label1
 ```
 
-Local helper labels inside a function should describe their purpose.
+Local helper labels should describe their purpose clearly.
 
 ---
 
@@ -90,28 +95,28 @@ Used for:
 - return values
 - syscall arguments
 
-Do not rely on these surviving a `bl`.
+Do not rely on these surviving a `bl` call.
 
 ---
 
 ## x9-x15
 
-Default scratch registers.
+These are the default scratch registers.
 
-Use for:
+Use them for:
 
 - pointers
 - counters
 - temporary values
 - loop variables
 
-These are the preferred temporary registers.
+The current libjl helpers commonly use `x9` and `w10` as temporary registers.
 
 ---
 
 ## x19-x28
 
-Use only when values must survive one or more `bl`.
+Use these when a value must survive one or more `bl` calls.
 
 Examples:
 
@@ -119,7 +124,7 @@ Examples:
 - pointers used across function calls
 - long-lived state
 
-Always preserve callee-saved registers.
+If a function modifies a callee-saved register, it must preserve it on the stack.
 
 Example:
 
@@ -137,13 +142,15 @@ ldp x19, x20, [sp], #16
 
 Maintain 16-byte stack alignment.
 
-Never leave the stack unbalanced.
+Do not leave the stack unbalanced.
+
+The shared `PROLOGUE`/`EPILOGUE` macros use a 16-byte frame and preserve `x29`/`x30`.
 
 ---
 
 # Comments
 
-Prefer comments that describe intent.
+Prefer comments that describe intent or structure.
 
 Good:
 
@@ -151,100 +158,103 @@ Good:
 // Read next byte from needle
 ```
 
-Avoid:
+Also common in this codebase:
 
 ```asm
-// Load byte into w10
+// CPU Banner
+// CPU Architecture
+// System Banner
 ```
 
-Instruction names already describe the second example.
+Avoid comments that restate the instruction in plain words. The instruction itself is usually clear enough.
+
+Comments are written in English in the current sources.
 
 ---
 
 # Naming
 
-Functions:
+Use names that make the role of the function obvious.
 
-```
+Library functions:
+
+```asm
 jl_strlen
 jl_strcmp
 jl_strstr
+jl_memcpy
 ```
 
-Getters:
+jlinfo helpers:
 
-```
-get_sysname
-get_architecture
-```
-
-Readers / Initializers:
-
-```
-read_uname
-init_cpuinfo
+```asm
+cpuinfo_get_corecount
+cpuinfo_get_architecture
+uname_get_sysname
+system_print
 ```
 
-Printers:
+Use prefixes consistently:
 
-```
-print_sys
-print_cpu
-```
+- `jl_` for libjl functions
+- `print_` for output functions
+- `get_` or `read_` for accessors and readers
 
 ---
 
 # Macros
 
-Macros should remove repetitive boilerplate.
+Macros are used to remove repetitive boilerplate.
 
-Good candidates:
+The current jlinfo code uses macros for:
 
-- common prologue/epilogue
-- loading labels
-- printing
-- repeated code sequences
+- common prologue and epilogue
+- loading addresses of labels
+- printing strings and numbers
+- emitting newlines
+- iterating over heading blocks
 
-Avoid hiding important program logic inside macros.
+Examples from the codebase include:
 
-libjl should remain easy to read as ARM64 assembly.
+- `PROLOGUE`
+- `EPILOGUE`
+- `PRINT_STRING`
+- `PRINT_NUMBER_FROM_FUNC`
+- `PRINT_NEWLINE`
+- `UNAME_GETTER`
 
-jlinfo may use macros more aggressively.
+Keep the main logic in the function body. Avoid hiding important behavior inside macros.
 
 ---
 
 # Documentation
 
-Every public function should contain:
+Public functions should be documented with a short comment block that explains:
 
 - purpose
 - input registers
 - return value
-- scratch registers used
+- scratch registers used when relevant
+
+The libjl sources use simple block comments above the function body. Keep that style for exported helpers.
 
 Example:
 
 ```asm
 //
-// JL_STRSTR
+// JL_STRLEN
 //
-// Search a string for a substring.
+// Count the length of a string.
 //
 // Input:
-//      x0 - haystack
-//      x1 - needle
+//      x0 - pointer to the string
 //
 // Returns:
-//      x0 - pointer to first match
-//           NULL if not found
+//      x0 - string length
 //
 // Scratch registers:
-//
-//      x2
-//      x3
-//      x4
+//      w9
 //      w10
-//      w11
 //
 ```
 
@@ -252,22 +262,25 @@ Example:
 
 # Testing
 
-Every public function should have at least one unit test.
+Every public libjl function should have at least one unit test.
 
-Include:
+Tests should cover:
 
 - normal case
-- boundary conditions
-- failure case
+- empty or boundary conditions
+- failure or null cases where applicable
 
 ---
 
 # Philosophy
 
-Build simple functions.
+Keep the assembly readable by a human.
 
-Build reusable functions.
+Prefer:
 
-Only introduce abstractions after duplication appears.
+- small focused functions
+- straightforward control flow
+- explicit sections and labels
+- reusable helpers over dense micro-optimizations
 
-Assembly should remain readable by a human.
+The code in this repository favors clarity first, with macros and structure used to keep the sources maintainable.

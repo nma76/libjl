@@ -11,11 +11,13 @@ _start:
     // clear terminal
     bl clear_screen
 
-    // read uname inte global variables
+    // read uname info
     bl init_uname
+
+    // read cpu info
     bl init_cpuinfo
     
-    // Print Sys info
+    // print info
     bl print_banner
     bl print_sys
     bl print_cpu
@@ -24,6 +26,6 @@ _start:
 
 exit:
     // Exit using linux syscall
-    mov x8, #93                         // exit syscall
-    svc #0                              // invoke syscall
+    mov x8, #93
+    svc #0
      

@@ -1,14 +1,14 @@
 # libjl
 
-**libjl** är ett litet standardbibliotek skrivet från grunden i ARM64 Assembly för Linux.
+**libjl** is a small standard library written from scratch in ARM64 Assembly for Linux.
 
-Projektets syfte är att utforska ARM64-arkitekturen, Linux systemanrop och hur ett eget bibliotek kan byggas upp utan beroende av libc. Biblioteket används av exempelprogram, där **jlinfo** är slutmålet.  
+The purpose of the project is to explore the ARM64 architecture, Linux system calls, and how a custom library can be built without relying on libc. The library is used by example programs, with **jlinfo** as the end goal.
 
-Det här projektet började som en övning i ARM64 Assembly men växte så småningom till ett eget litet standardbibliotek och en samling verktyg byggda ovanpå det.
-  
+This project started as an exercise in ARM64 Assembly, but gradually grew into a small standalone standard library and a collection of tools built on top of it.
+
 ---
 
-## Projektstruktur
+## Project Structure
 
 ```
 .
@@ -27,28 +27,28 @@ Det här projektet började som en övning i ARM64 Assembly men växte så smån
 
 ## include/
 
-Header-filer som används av C-program och tester.
+Header files used by C programs and tests.
 
 ### `libjl.h`
 
-Deklarerar alla publika funktioner som exporteras av **libjl**.
+Declares all public functions exported by **libjl**.
 
-Exempel:
+Examples:
 
-- String-funktioner
-- Minnesfunktioner
-- Linux syscall-wrapperar
-- Hjälpfunktioner
+- String functions
+- Memory functions
+- Linux syscall wrappers
+- Helper functions
 
 ---
 
 ## src/apps/
 
-Innehåller exempelprogram som använder **libjl**.
+Contains example programs that use **libjl**.
 
-Varje applikation ligger i en egen katalog.
+Each application is placed in its own directory.
 
-Exempel:
+Example:
 
 ```
 src/apps/
@@ -60,17 +60,17 @@ src/apps/
     └── ...
 ```
 
-Varje modul ansvarar för ett specifikt område av programmet.
+Each module is responsible for a specific part of the program.
 
 ---
 
 ## src/lib/
 
-Bibliotekets implementation.
+The implementation of the library.
 
-Varje funktion implementeras i en egen Assembly-fil.
+Each function is implemented in its own Assembly file.
 
-Exempel:
+Example:
 
 ```
 src/lib/
@@ -83,7 +83,7 @@ jl_open.S
 ...
 ```
 
-Alla objektfiler länkas samman till det statiska biblioteket:
+All object files are linked together into the static library:
 
 ```
 libjl.a
@@ -93,11 +93,11 @@ libjl.a
 
 ## tests/
 
-Tester skrivna i C.
+Tests written in C.
 
-Syftet är att verifiera att funktionerna i **libjl** fungerar korrekt genom att anropa biblioteket från ett vanligt C-program.
+The purpose is to verify that the functions in **libjl** work correctly by calling the library from a regular C program.
 
-Exempel:
+Example:
 
 ```
 tests/
@@ -108,19 +108,19 @@ test_write.c
 ...
 ```
 
-Alla tester länkas mot `libjl.a`.
+All tests are linked against `libjl.a`.
 
 ---
 
-## Bygga projektet
+## Building the Project
 
-Bygg bibliotek, tester och applikationer:
+Build the library, tests, and applications:
 
 ```bash
 make
 ```
 
-Rensa alla byggda filer:
+Remove all build artifacts:
 
 ```bash
 make clean
@@ -128,27 +128,27 @@ make clean
 
 ---
 
-## Mål
+## Goals
 
-Projektets långsiktiga mål är att bygga ett litet men användbart ARM64 Assembly-bibliotek som innehåller:
+The long-term goal of the project is to build a small but useful ARM64 Assembly library containing:
 
-- Stränghantering
-- Minneshantering
-- Linux syscall-wrapperar
-- Enkla I/O-funktioner
-- Hjälpfunktioner för systemprogram
+- String handling
+- Memory handling
+- Linux syscall wrappers
+- Simple I/O functions
+- Helper functions for system programs
 
-Biblioteket används sedan av egna program, exempelvis **jlinfo**, som demonstrerar bibliotekets funktionalitet i praktiken.
+The library is then used by custom programs, such as **jlinfo**, to demonstrate its functionality in practice.
 
 ---
 
 ## Status
 
-Projektet är under aktiv utveckling och fungerar samtidigt som en praktisk studie av:
+The project is under active development and serves at the same time as a practical study of:
 
 - ARM64 Assembly
 - Linux ABI
-- ELF-format
-- Linux systemanrop
-- Statiska bibliotek
-- Länkning
+- ELF format
+- Linux system calls
+- Static libraries
+- Linking

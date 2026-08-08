@@ -24,6 +24,12 @@ memory_total_heading:
 
 memory_available_heading:
 .asciz "\033[2;37m Available RAM: \033[0m"
+
+memory_free_heading:
+.asciz "\033[2;37m Free RAM: \033[0m"
+
+memory_cached_heading:
+.asciz "\033[2;37m Cached: \033[0m"
 //
 // -----------------------------------------------------
 // 
@@ -68,6 +74,28 @@ memory_print_total:
 memory_print_available:
     PRINT_STRING memory_available_heading
     PRINT_STRING_FROM_FUNC meminfo_get_memavailable
+    PRINT_NEWLINE
+//
+// -----------------------------------------------------
+//
+
+//
+// Memory Free -----------------------------------------
+//
+memory_print_free:
+    PRINT_STRING memory_free_heading
+    PRINT_STRING_FROM_FUNC meminfo_get_memfree
+    PRINT_NEWLINE
+//
+// -----------------------------------------------------
+//
+
+//
+// Memory Cached ---------------------------------------
+//
+memory_print_cached:
+    PRINT_STRING memory_cached_heading
+    PRINT_STRING_FROM_FUNC meminfo_get_cached
     PRINT_NEWLINE
 //
 // -----------------------------------------------------

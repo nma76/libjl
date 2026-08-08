@@ -14,11 +14,14 @@ meminfo_path:
 meminfo_memtotal_label:
 .asciz "MemTotal"
 
+meminfo_memavailable_label:
+.asciz "MemAvailable"
+
 meminfo_memfree_label:
 .asciz "MemFree"
 
-meminfo_memavailable_label:
-.asciz "MemAvailable"
+meminfo_cached_label:
+.asciz "Cached"
 
 .section .bss
 .align 3
@@ -31,8 +34,9 @@ meminfo_buffer: .skip 8192
 
 .global meminfo_read
 .global meminfo_get_memtotal
-.global meminfo_get_memfree
 .global meminfo_get_memavailable
+.global meminfo_get_memfree
+.global meminfo_get_cached
 
 //
 // meminfo_read
@@ -79,28 +83,11 @@ meminfo_read:
 meminfo_get_memtotal:
     PROLOGUE
 
-    adrp x0, meminfo_buffer                     // load the content from proc/cpuinfo
+    adrp x0, meminfo_buffer                         // load the content from proc/cpuinfo
     add x0, x0, :lo12:meminfo_buffer
 
     adrp x1, meminfo_memtotal_label                 // load the key to look for
     add x1, x1, :lo12:meminfo_memtotal_label
-
-    bl util_find_key_value
-
-    EPILOGUE
-
-//
-// meminfo_get_memfree
-// get the total amount of memory free
-//
-meminfo_get_memfree:
-    PROLOGUE
-
-    adrp x0, meminfo_buffer                     // load the content from proc/cpuinfo
-    add x0, x0, :lo12:meminfo_buffer
-
-    adrp x1, meminfo_memfree_label                 // load the key to look for
-    add x1, x1, :lo12:meminfo_memfree_label
 
     bl util_find_key_value
 
@@ -113,11 +100,45 @@ meminfo_get_memfree:
 meminfo_get_memavailable:
     PROLOGUE
 
-    adrp x0, meminfo_buffer                     // load the content from proc/cpuinfo
+    adrp x0, meminfo_buffer                         // load the content from proc/cpuinfo
     add x0, x0, :lo12:meminfo_buffer
 
-    adrp x1, meminfo_memavailable_label                 // load the key to look for
+    adrp x1, meminfo_memavailable_label             // load the key to look for
     add x1, x1, :lo12:meminfo_memavailable_label
+
+    bl util_find_key_value
+
+    EPILOGUE
+
+//
+// meminfo_get_memfree
+// get the total amount of memory free
+//
+meminfo_get_memfree:
+    PROLOGUE
+
+    adrp x0, meminfo_buffer                         // load the content from proc/cpuinfo
+    add x0, x0, :lo12:meminfo_buffer
+
+    adrp x1, meminfo_memfree_label                 // load the key to look for
+    add x1, x1, :lo12:meminfo_memfree_label
+
+    bl util_find_key_value
+
+    EPILOGUE
+
+//
+// meminfo_get_cached
+// get the total amount of memory used for file cache
+//
+meminfo_get_cached:
+    PROLOGUE
+
+    adrp x0, meminfo_buffer                         // load the content from proc/cpuinfo
+    add x0, x0, :lo12:meminfo_buffer
+
+    adrp x1, meminfo_cached_label                   // load the key to look for
+    add x1, x1, :lo12:meminfo_cached_label
 
     bl util_find_key_value
 

@@ -50,24 +50,29 @@ util_find_key_value:
     stp x19, x20, [sp, #-16]!               // Store callee-saved registers so we can restore them later
     str x21, [sp, #-16]!
 
-    mov x21, #-1
+    mov x21, #-1                            // start counting bytes at -1
 
     bl jl_strstr                            // call jl_strstr to find the first occurance if the key
-    cbz x0, util_find_key_value_done             // if no hit, jump to end!
+    cbz x0, util_find_key_value_done        // if no hit, jump to end!
 
     mov x1, #':'                            // search for : starting at the first occurance of key found
     bl jl_strchr
     cbz x0, util_find_key_value_done        // if no hit, jump to end!
 
-    add x0, x0, #2                          // move pointer 2 bytes to skip : and whitespace
+util_find_key_skip_whitespaces:             // skip whitespaces
+    add x0, x0, #1                          // skip the : by adding 1 to the pointer
+    ldrb w19, [x0]                          // load character at pointer and move 1 forward
+    cmp w19, #32                            // is it space? (should be expanded to look fot tab etc.)
+    b.eq util_find_key_skip_whitespaces
+
     ldrb w19, [x0]                          // load character at x0 so we can check if it's null
-    cbz x19, util_find_key_value_done            // and if so, jump to end
+    cbz x19, util_find_key_value_done       // and if so, jump to end
 
     mov x20, x0                             // copy pointer in x0 to x20 so we can loop/increase it
 util_find_key_value_newline_loop:           // loop to find \n, which signals end of value
     ldrb w19, [x20], #1                     // read the next byte from pointer 
     cbz w19, util_find_key_value_done       // if we for some reason reached end without finding a new line
-    add x21, x21, #1
+    add x21, x21, #1                        // increse counter so we know how many bytes to copy
     cmp w19, #10                            // did we find newline? (\n is ascii 10)
     b.ne util_find_key_value_newline_loop
 
@@ -75,11 +80,12 @@ util_find_key_value_newline_loop:           // loop to find \n, which signals en
     adrp x0, global_temp_value_buffer       // add pointer to temp_bugger where we store the sub-string
     add x0, x0, :lo12:global_temp_value_buffer
     mov x2, x21                             // jl_memcpy want number of bytes to copy in x2, and our counter is in x21
+    strb wzr, [x0, x21]                     // add null after the last character to terminate string
     bl jl_memcpy                            // copy the value
 
 util_find_key_value_done:
-    str x21, [sp], #16
-    ldp x19, x20, [sp], #16                 // restore callee-saved registers
+    str x21, [sp], #16                      // restore callee-saved registers
+    ldp x19, x20, [sp], #16                 
 
     // EPILOGUE: often used to restore x29 and x30
     EPILOGUE

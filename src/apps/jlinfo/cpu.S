@@ -60,7 +60,7 @@ print_cpu:
 //
 
 // DEBUG! REMOVE
-//    PRINT_STRING_FROM_FUNC get_bogomips
+//    PRINT_STRING_FROM_FUNC get_architecture_value
 // -------------
 
 //
@@ -76,8 +76,7 @@ print_cpu:
 //
 print_cpu_architecture:
     PRINT_STRING cpu_architecture_heading
-    PRINT_STRING cpu_architecture_value
-    //PRINT_STRING_FROM_FUNC get_nodename
+    PRINT_STRING_FROM_FUNC get_architecture_value
     PRINT_NEWLINE
 //
 // -----------------------------------------------------

@@ -12,7 +12,7 @@ clear_screen_string:
 .section .text
 
 .global clear_screen
-.global find_value
+.global find_key_value
 
 //
 // clear_screen
@@ -29,7 +29,7 @@ clear_screen:
     EPILOGUE
 
 //
-// find_value
+// find_key_value
 //      finds the value of the first ocurencs of key in a text formatted like /proc/cpuinfo:
 //      key : value
 //
@@ -39,40 +39,36 @@ clear_screen:
 //  returns:
 //      pointer to value
 //
-find_value:
+//  temporary registers
+//      x19 current character in value
+//      x20 copy of the pointer in x0, used in loop
+//
+find_key_value:
     // PROLOGUE: often used to store x29 and x30
     PROLOGUE
-
-    // just to remember to document them!!
-    mov x19, #0
-    mov x20, #0
-    mov x21, #0
+    stp x19, x20, [sp, #-16]!               // Store callee-saved registers so we can restore them later
 
     bl jl_strstr                            // call jl_strstr to find the first occurance if the key
-    cbz x0, find_value_not_found            // if no hit, jump to end!
+    cbz x0, find_key_value_done                 // if no hit, jump to end!
 
-    mov x1, #':'
+    mov x1, #':'                            // search for : starting at the first occurance of key found
     bl jl_strchr
-    cbz x0, find_value_not_found            // if no hit, jump to end!
+    cbz x0, find_key_value_done                 // if no hit, jump to end!
 
     add x0, x0, #2                          // move pointer 2 bytes to skip : and whitespace
-    cbz x0, find_value_not_found            // if we reached a null value, there's no value
+    ldrb w19, [x0]                          // load character at x0 so we can check if it's null
+    cbz x19, find_key_value_done                // and if so, jump to end
 
     mov x20, x0                             // copy pointer in x0 to x20 so we can loop/increase it
-find_value_newline_loop:                    // loop to find \n, whicj signals end of value
+find_key_value_newline_loop:                    // loop to find \n, which signals end of value
     ldrb w19, [x20], #1                     // read the next byte from pointer 
-    cbz w19, find_value_not_found           // if we for some reason reached end without finding  a new line
-    add x21, x21, #1                        // increase counter to store number of bytes to copy
-    cmp w19, #10                            // did we find newline?
-    b.ne find_value_newline_loop
+    cbz w19, find_key_value_done                // if we for some reason reached end without finding a new line
+    cmp w19, #10                            // did we find newline? (\n is ascii 10)
+    b.ne find_key_value_newline_loop
+    strb wzr, [x20, #-1]                    // overwrite \n with \0
 
-    mov x1, x0                              // user jl_memcpy to copy the found number of bytes representing the vlaue
-    adrp x0, temp_buffer                    // add pointer to temp_bugger where we store the sub-string
-    add x0, x0, :lo12:temp_buffer
-    mov x2, x21                             // jl_memcpy want number of bytes to copy in x2, and our counter is in x21
-    bl jl_memcpy                            // copy the value
+find_key_value_done:
+    ldp x19, x20, [sp], #16                 // restore callee-saved registers
 
-find_value_not_found:
-    
     // EPILOGUE: often used to restore x29 and x30
     EPILOGUE

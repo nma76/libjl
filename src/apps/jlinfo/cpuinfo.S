@@ -14,8 +14,8 @@ cpuinfo_path:
 processor_label:
 .asciz "processor"
 
-bogomips_label:
-.asciz "BogoMIPS"
+architecture_label:
+.asciz "CPU architecture"
 
 .section .bss
 .align 3
@@ -29,7 +29,7 @@ cpuinfo_buffer: .skip 8192
 .global init_cpuinfo
 .global print_cpuinfo_debug
 .global get_corecount
-.global get_bogomips
+.global get_architecture_value
 
 init_cpuinfo:
     PROLOGUE
@@ -96,18 +96,18 @@ corecount_done:
     EPILOGUE
 
 //
-// get_bogomips
-// get  bogomips value from /proc/cpuinfo
+// get_architecture_value
+// get cpu architecture value from /proc/cpuinfo
 //
-get_bogomips:
+get_architecture_value:
     PROLOGUE
 
     adrp x0, cpuinfo_buffer                     // load the content from proc/cpuinfo
     add x0, x0, :lo12:cpuinfo_buffer
 
-    adrp x1, bogomips_label                    // load the key to look for
-    add x1, x1, :lo12:bogomips_label
+    adrp x1, architecture_label                 // load the key to look for
+    add x1, x1, :lo12:architecture_label
 
-    bl find_value
+    bl find_key_value
 
     EPILOGUE

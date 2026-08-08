@@ -9,7 +9,6 @@
 
 _start:
     // initialize our runtime
-    mov x0, sp                                              // copy stack pointer to x0 as jl_runtime.S uses it as input
     bl runtime_init
 
     // clear terminal

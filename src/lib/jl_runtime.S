@@ -25,13 +25,11 @@ runtime_saved_sp:
 // RUNTIME_INIT
 // Initialize the runtime and stores stack pointer 
 //
-// Input:
-//      x0 - stack pointer
-//
 runtime_init:
     adrp x9, runtime_saved_sp       // load address to variable into x9
     add x9, x9, :lo12:runtime_saved_sp
-    str x0, [x9]                    // save pointer in x0 to variable
+    mov x1, sp                      // temporary store sp in x1
+    str x1, [x9]                    // save sp to variable
 
     ret
 
@@ -50,7 +48,7 @@ runtime_get_argc:
     ret
 
 //
-// RUNTIME_GET_ARGV
+// RUNTIME_GET_ARG
 // Get pointer to the start of argv
 //
 // Returns:

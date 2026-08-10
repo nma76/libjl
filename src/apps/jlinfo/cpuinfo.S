@@ -2,7 +2,8 @@
 // Module that handles /proc/cpuinfo
 //
 // scratch registers:
-//      x19  - index of argument to get
+//      x19  - file handle
+//             counter to count occurencies
 //
 
 .section .rodata 
@@ -65,8 +66,8 @@ cpuinfo_read:
     //
     // Prepare to close file with jl_close
     //
-    mov x0, x19
-    bl jl_close
+    mov x0, x19                                 // read file handle from x19 back to x0 
+    bl jl_close                                 // close the file
 
     ldr x19, [sp], #16                          // restore x19 from stack
 
@@ -91,7 +92,7 @@ cpuinfo_corecount_loop:
 
     bl jl_strstr                                // find the firs occurence using jl_strstr
 
-    cbz x0, cpuinfo_corecount_done                      // if x0 is null, no more occurencies was found
+    cbz x0, cpuinfo_corecount_done              // if x0 is null, no more occurencies was found
     add x0, x0, #1                              // if we found the string we was looking for, add a byte so we can search again without getting the same hit
     add x19, x19, #1                            // increase the counter
     b cpuinfo_corecount_loop                    // and do another search
@@ -112,7 +113,7 @@ cpuinfo_get_architecture:
     adrp x0, cpuinfo_buffer                     // load the content from proc/cpuinfo
     add x0, x0, :lo12:cpuinfo_buffer
 
-    adrp x1, cpuinfo_architecture_label                 // load the key to look for
+    adrp x1, cpuinfo_architecture_label         // load the key to look for
     add x1, x1, :lo12:cpuinfo_architecture_label
 
     bl util_find_key_value
@@ -129,7 +130,7 @@ cpuinfo_get_implementer:
     adrp x0, cpuinfo_buffer                     // load the content from proc/cpuinfo
     add x0, x0, :lo12:cpuinfo_buffer
 
-    adrp x1, cpuinfo_implementer_label                 // load the key to look for
+    adrp x1, cpuinfo_implementer_label          // load the key to look for
     add x1, x1, :lo12:cpuinfo_implementer_label
 
     bl util_find_key_value

@@ -2,7 +2,7 @@
 // Module that handles /proc/meminfo
 //
 // scratch registers:
-//      x19  - index of argument to get
+//      x19  - file handle
 //
 
 .section .rodata 

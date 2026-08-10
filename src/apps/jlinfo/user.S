@@ -1,8 +1,5 @@
 // Module that handles memory info
 //
-// scratch registers:
-//      x19  - index of argument to get
-//
 
 .section .rodata 
 .align 4 

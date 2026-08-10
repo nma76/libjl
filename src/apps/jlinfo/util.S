@@ -1,6 +1,12 @@
 //
 // Misc utils
 //
+// Scratch registers
+//  x19 - current character
+//  x20 - loop pointer
+//  x21 - counter
+//
+
 .section .rodata 
 .align 4 
 

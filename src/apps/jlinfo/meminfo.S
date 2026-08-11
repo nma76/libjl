@@ -42,6 +42,9 @@ meminfo_buffer: .skip 8192
 // meminfo_read
 // reads the file /proc/meminfo into a buffer and closes the file
 //
+// scratch registers:
+//      x19 - file handle
+//
 meminfo_read:
     PROLOGUE
 
@@ -80,6 +83,9 @@ meminfo_read:
 // meminfo_get_memtotal
 // get the total amount of memory
 //
+// Returns:
+//      x0  - pointer to string containing total amount of memory
+//
 meminfo_get_memtotal:
     PROLOGUE
 
@@ -96,6 +102,9 @@ meminfo_get_memtotal:
 //
 // meminfo_get_memavailable
 // get the total amount of memory available
+//
+// Returns:
+//      x0  - pointer to string containing memory available
 //
 meminfo_get_memavailable:
     PROLOGUE
@@ -114,6 +123,9 @@ meminfo_get_memavailable:
 // meminfo_get_memfree
 // get the total amount of memory free
 //
+// Returns:
+//      x0  - pointer to string containing free memory
+//
 meminfo_get_memfree:
     PROLOGUE
 
@@ -131,6 +143,8 @@ meminfo_get_memfree:
 // meminfo_get_cached
 // get the total amount of memory used for file cache
 //
+// Returns:
+//      x0  - pointer to string containing cached memory
 meminfo_get_cached:
     PROLOGUE
 

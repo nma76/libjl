@@ -36,7 +36,7 @@ util_clear_screen:
 
 //
 // util_find_key_value
-//      finds the value of the first occurances of key in a text formatted like /proc/cpuinfo:
+//      finds the value of the first occurrences of key in a text formatted like /proc/cpuinfo:
 //      key : value
 //
 //  parameters:
@@ -58,17 +58,17 @@ util_find_key_value:
 
     mov x21, #-1                            // start counting bytes at -1
 
-    bl jl_strstr                            // call jl_strstr to find the first occurance if the key
+    bl jl_strstr                            // call jl_strstr to find the first occurrence if the key
     cbz x0, util_find_key_value_done        // if no hit, jump to end!
 
-    mov x1, #':'                            // search for : starting at the first occurance of key found
+    mov x1, #':'                            // search for : starting at the first occurrence of key found
     bl jl_strchr
     cbz x0, util_find_key_value_done        // if no hit, jump to end!
 
 util_find_key_skip_whitespaces:             // skip whitespaces
     add x0, x0, #1                          // skip the : by adding 1 to the pointer
     ldrb w19, [x0]                          // load character at pointer and move 1 forward
-    cmp w19, #32                            // is it space? (should be expanded to look fot tab etc.)
+    cmp w19, #32                            // is it space? (should be expanded to look for tab etc.)
     b.eq util_find_key_skip_whitespaces
 
     ldrb w19, [x0]                          // load character at x0 so we can check if it's null
@@ -78,14 +78,14 @@ util_find_key_skip_whitespaces:             // skip whitespaces
 util_find_key_value_newline_loop:           // loop to find \n, which signals end of value
     ldrb w19, [x20], #1                     // read the next byte from pointer 
     cbz w19, util_find_key_value_done       // if we for some reason reached end without finding a new line
-    add x21, x21, #1                        // increse counter so we know how many bytes to copy
+    add x21, x21, #1                        // increase counter so we know how many bytes to copy
     cmp w19, #10                            // did we find newline? (\n is ascii 10)
     b.ne util_find_key_value_newline_loop
 
-    mov x1, x0                              // user jl_memcpy to copy the found number of bytes representing the value. We copy the value to not modify the original buffer
-    adrp x0, global_temp_value_buffer       // add pointer to temp buffer where we store the sub-string
+    mov x1, x0                              // use jl_memcpy to copy the found number of bytes representing the value. We copy the value to not modify the original buffer
+    adrp x0, global_temp_value_buffer       // add pointer to temp buffer where we store the substring
     add x0, x0, :lo12:global_temp_value_buffer
-    mov x2, x21                             // jl_memcpy want number of bytes to copy in x2, and our counter is in x21
+    mov x2, x21                             // jl_memcpy wants number of bytes to copy in x2, and our counter is in x21
     strb wzr, [x0, x21]                     // add null after the last character to terminate string
     bl jl_memcpy                            // copy the value
 

@@ -1,5 +1,5 @@
 //
-// Module that handles memory info
+// Module that handles printing memory information to screen
 //
 
 .section .rodata 

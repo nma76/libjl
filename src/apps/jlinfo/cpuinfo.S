@@ -3,7 +3,7 @@
 //
 // scratch registers:
 //      x19  - file handle
-//             counter to count occurencies
+//             counter to count occurrences
 //
 
 .section .rodata 
@@ -38,6 +38,9 @@ cpuinfo_buffer: .skip 8192
 //
 // cpuinfo_read
 // reads the file /proc/cpuinfo into a buffer and closes the file
+//
+// scratch registers:
+//      x19 - file handle
 //
 cpuinfo_read:
     PROLOGUE
@@ -75,13 +78,19 @@ cpuinfo_read:
 
 //
 // cpuinfo_get_corecount
-// search the content from /proc/cpuinfo and count occurencies of "processor" to get number of cores
+// search the content from /proc/cpuinfo and count occurrences of "processor" to get number of cores
+//
+// Returns:
+//      x0 - number of cores
+//
+// Scratch registers:
+//      x19 - counter
 //
 cpuinfo_get_corecount:
     PROLOGUE
     str x19, [sp, #-16]!                        // store x19 on the stack so we can restore it. It's callee-saved, so it's important not to destroy!
 
-    mov x19, #0                                 // use x19 as a counter to count occurencies
+    mov x19, #0                                 // use x19 as a counter to count occurrences
 
     adrp x0, cpuinfo_buffer                     // load the haystack, which is the content from proc/cpuinfo
     add x0, x0, :lo12:cpuinfo_buffer
@@ -90,9 +99,9 @@ cpuinfo_corecount_loop:
     adrp x1, cpuinfo_processor_label            // load the needle, in this case "processor"
     add x1, x1, :lo12:cpuinfo_processor_label
 
-    bl jl_strstr                                // find the firs occurence using jl_strstr
+    bl jl_strstr                                // find the first occurrence using jl_strstr
 
-    cbz x0, cpuinfo_corecount_done              // if x0 is null, no more occurencies was found
+    cbz x0, cpuinfo_corecount_done              // if x0 is null, no more occurrences was found
     add x0, x0, #1                              // if we found the string we was looking for, add a byte so we can search again without getting the same hit
     add x19, x19, #1                            // increase the counter
     b cpuinfo_corecount_loop                    // and do another search
@@ -106,6 +115,9 @@ cpuinfo_corecount_done:
 //
 // cpuinfo_get_architecture
 // get cpu architecture value from /proc/cpuinfo
+//
+// Returns:
+//      x0  - pointer to string containing cpu architecture
 //
 cpuinfo_get_architecture:
     PROLOGUE
@@ -123,6 +135,9 @@ cpuinfo_get_architecture:
 //
 // cpuinfo_get_implementer
 // get cpu implementer (model) value from /proc/cpuinfo
+//
+// Returns:
+//      x0  - pointer to string containing cpu implementer
 //
 cpuinfo_get_implementer:
     PROLOGUE

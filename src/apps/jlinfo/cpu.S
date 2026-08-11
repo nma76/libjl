@@ -1,8 +1,5 @@
 //
-// Module that handles cpu info
-//
-// scratch registers:
-//      x19  - index of argument to get
+// Module that handles printing cpu information to screen.
 //
 
 .section .rodata 

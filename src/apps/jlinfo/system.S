@@ -1,4 +1,5 @@
-// Module that handles memory info
+//
+// Module that handles system information
 //
 
 .section .rodata 

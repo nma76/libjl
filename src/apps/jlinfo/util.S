@@ -36,7 +36,7 @@ util_clear_screen:
 
 //
 // util_find_key_value
-//      finds the value of the first ocurencs of key in a text formatted like /proc/cpuinfo:
+//      finds the value of the first occurances of key in a text formatted like /proc/cpuinfo:
 //      key : value
 //
 //  parameters:
@@ -83,7 +83,7 @@ util_find_key_value_newline_loop:           // loop to find \n, which signals en
     b.ne util_find_key_value_newline_loop
 
     mov x1, x0                              // user jl_memcpy to copy the found number of bytes representing the value. We copy the value to not modify the original buffer
-    adrp x0, global_temp_value_buffer       // add pointer to temp_bugger where we store the sub-string
+    adrp x0, global_temp_value_buffer       // add pointer to temp buffer where we store the sub-string
     add x0, x0, :lo12:global_temp_value_buffer
     mov x2, x21                             // jl_memcpy want number of bytes to copy in x2, and our counter is in x21
     strb wzr, [x0, x21]                     // add null after the last character to terminate string

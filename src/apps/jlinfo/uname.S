@@ -1,5 +1,5 @@
 //
-// Module that handles uname
+// Module that handles uname information
 //
 
 .section .bss

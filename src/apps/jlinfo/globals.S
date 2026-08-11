@@ -1,6 +1,7 @@
 //
 // Global runtime data used by jlinfo
 //
+
 .section .bss
 .align 3
 

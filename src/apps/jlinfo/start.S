@@ -25,7 +25,6 @@ _start:
     bl memory_print
     bl user_print
 
-exit:
     // Exit using linux syscall
     mov x8, #93
     svc #0

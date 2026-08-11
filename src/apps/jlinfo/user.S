@@ -1,4 +1,5 @@
-// Module that handles memory info
+//
+// Module that handles user information
 //
 
 .section .rodata 

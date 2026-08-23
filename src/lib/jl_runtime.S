@@ -93,5 +93,5 @@ runtime_get_auxv:
 
 runtime_get_aux_loop:    
     ldr x9, [x0], #8                // read current envp pointer and advance to next enttry
-    cbnz x9, runtime_get_aux_loop   // if x21 is NULL, we have reached the end
+    cbnz x9, runtime_get_aux_loop   // if x9 is NULL, we have reached the end
     ret
